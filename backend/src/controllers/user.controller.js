@@ -269,7 +269,7 @@ const updatedAccountDetails = asyncHandler(async (req, res) => {
       },
     },
     { new: true }
-  ).select("-password"); /
+  ).select("-password"); 
 
   return res
     .status(200)
@@ -318,5 +318,4 @@ export {
   getCurrentUser,
   updatedAccountDetails,
   updateUserAvatar,
-  ,
 };

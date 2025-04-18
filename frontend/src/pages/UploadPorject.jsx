@@ -23,7 +23,7 @@ export default function CreateProjectPage() {
 
     try {
       setLoading(true);
-      const res = await axios.post("/api/projects", formData, {
+      const res = await axios.post("/api/Products", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -42,15 +42,24 @@ export default function CreateProjectPage() {
   return (
     <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-start py-12 px-4">
       <div className="w-full max-w-2xl">
-        <h1 className="text-3xl font-bold mb-8 text-center">Upload a New Project</h1>
+        <h1 className="text-3xl font-bold mb-8 text-center">
+          Upload a New Project
+        </h1>
 
         {message && (
-          <div className="mb-4 text-center text-sm text-yellow-400">{message}</div>
+          <div className="mb-4 text-center text-sm text-yellow-400">
+            {message}
+          </div>
         )}
 
-        <form onSubmit={handleSubmit} className="bg-gray-900 p-8 rounded-lg shadow-lg space-y-6">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-gray-900 p-8 rounded-lg shadow-lg space-y-6"
+        >
           <div>
-            <label className="block text-sm font-medium mb-1">Project Name</label>
+            <label className="block text-sm font-medium mb-1">
+              Project Name
+            </label>
             <input
               type="text"
               className="w-full px-4 py-2 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -61,7 +70,9 @@ export default function CreateProjectPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Upload Video</label>
+            <label className="block text-sm font-medium mb-1">
+              Upload Video
+            </label>
             <input
               type="file"
               accept="video/*"
@@ -72,7 +83,9 @@ export default function CreateProjectPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Description</label>
+            <label className="block text-sm font-medium mb-1">
+              Description
+            </label>
             <textarea
               className="w-full px-4 py-2 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               rows="5"

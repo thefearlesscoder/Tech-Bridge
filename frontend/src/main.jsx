@@ -13,12 +13,12 @@ import "slick-carousel/slick/slick-theme.css";
 
 createRoot(document.getElementById("root")).render(
 
-    <div className='w-full min-h-screen'>
-        <Provider store={store}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </Provider>
+    <div className='bg-richblack-900 w-full min-h-screen'>
+      
+      <BrowserRouter>
+          <App />
+        </BrowserRouter>
+
     </div>
 
 );

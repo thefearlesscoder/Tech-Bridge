@@ -103,14 +103,14 @@ Feel free to contribute, suggest ideas, or reach out to the team!
     ```
     `/update-details
     ```
-** PROJECT ROUTES **
+**PROJECT ROUTES**
 
 ```
 ("/addproject").post
 ("/deleteproject/:projectId").delete
 ("/editproject/:projectId").put
 ("/myprojects").get
-router.route("/projects").get
+(router.route("/projects").get
 ("/projects").get
 ("/addbookmark/:projectId").post
 ("/removebookmark/:projectId").delete
@@ -119,7 +119,7 @@ router.route("/projects").get
 ("/completedprojects").get
 ```
 
-** COMMUNITY ROUTES **
+**COMMUNITY ROUTES**
 
 ```
   ("/addpost").post
@@ -128,7 +128,7 @@ router.route("/projects").get
   ("/deletepost/:postId").delete
   ("/getmyposts").get
 ```
-** COMMENT ROUTES **
+**COMMENT ROUTES**
 
 ```
   ("/addcomment/:projectId").post

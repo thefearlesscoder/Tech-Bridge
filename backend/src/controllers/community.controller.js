@@ -13,7 +13,7 @@ const addPost = asyncHandler(async (req, res) => {
     return res.status(404).json(new ApiResponse(404, {}, "User not found"));
   }
 
-  const { role, title, lookingFor, description ,projectId, budget } = req.body;
+  const { role, title, lookingFor, description, projectId, budget } = req.body;
   console.log(req.body);
 
   if (!role || !title || !lookingFor || !description) {
@@ -32,7 +32,7 @@ const addPost = asyncHandler(async (req, res) => {
 
   console.log(postData);
 
-  if (role === "Developer" || role === "Collab" ) {
+  if (role === "Developer" || role === "Collab") {
     if (!projectId) {
       return res
         .status(400)
@@ -65,13 +65,16 @@ const getPostOfRole = asyncHandler(async (req, res) => {
   const sortOption = sortBy || "createdAt";
 
   const validRoles = ["Collab", "Developer", "VC"];
-  if (!validRoles.includes(role)) {
+
+  if (role && !validRoles.includes(role)) {
     return res
       .status(400)
       .json(new ApiResponse(400, {}, "Invalid role provided"));
   }
 
-  const posts = await CommunityPost.find({ role })
+  const filter = role ? { role } : {};
+
+  const posts = await CommunityPost.find(filter)
     .populate("userId", "fullname avatar")
     .sort({ [sortOption]: -1 })
     .exec();
@@ -171,4 +174,22 @@ const applyPost = asyncHandler(async (req, res) => {
   }
 });
 
-export { addPost, getPostOfRole, updatePost, deletePost };
+const getMyPosts = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const posts = await CommunityPost.find({ userId })
+    .populate("userId", "fullname avatar")
+    .sort({ createdAt: -1 })
+    .exec();
+
+  if (!posts || posts.length === 0) {
+    return res.status(404).json(new ApiResponse(404, {}, "No posts found"));
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, posts, "Posts fetched successfully"));
+});
+
+
+
+export { addPost, getPostOfRole, updatePost, deletePost, getMyPosts };

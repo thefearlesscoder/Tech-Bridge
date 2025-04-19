@@ -26,6 +26,7 @@ function App() {
         <Route path="/make-post" element={<MakeCommunityPost />} />
         <Route path="/projects/" element={<Project />} />
         <Route path="/project-detail" element={<ProjectDetail />} />
+        
       </Routes>
     </div>
   );

@@ -2,11 +2,10 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import { GoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
 
-function SignIn() {
+
+
+function LoginForm() {
   const navigate = useNavigate();
   const { loading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -18,33 +17,33 @@ function SignIn() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLoginWithGoogle = async (credentialResponse) => {
-    if (credentialResponse?.credential) {
-      console.log("Google Login Success:", credentialResponse);
+  // const handleLoginWithGoogle = async (credentialResponse) => {
+  //   if (credentialResponse?.credential) {
+  //     console.log("Google Login Success:", credentialResponse);
 
-      // Extract token
-      let token = credentialResponse.credential;
-      console.log(token);
+  //     // Extract token
+  //     let token = credentialResponse.credential;
+  //     console.log(token);
      
 
-      token = jwtDecode(token)
-      console.log(token);
+  //     token = jwtDecode(token)
+  //     console.log(token);
 
-      const email = token.email;
-      const name = token.name;
-      const image = token.picture;
-      const family_name = token.family_name;
-      const given_name = token.given_name;
-      const googleId = token.sub; // Google ID
+  //     const email = token.email;
+  //     const name = token.name;
+  //     const image = token.picture;
+  //     const family_name = token.family_name;
+  //     const given_name = token.given_name;
+  //     const googleId = token.sub; // Google ID
       
-      // Send token to backend for verification
-      dispatch( googleLogin(email, family_name, given_name, image, navigate) );
-    }
-  }
+  //     // Send token to backend for verification
+  //     dispatch( googleLogin(email, family_name, given_name, image, navigate) );
+  //   }
+  // }
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    dispatch(login(email, password, navigate));
+    // dispatch(login(email, password, navigate));
   };
 
 
@@ -102,20 +101,20 @@ function SignIn() {
             </Link>
           </div>
           <div className="mt-4 text-center">
-            <Link to={"/signup"} className="text-blue-500 hover:underline">
+            <Link to={"/signin"} className="text-blue-500 hover:underline">
               Create an Account
             </Link>
           </div>
-          <div className=" flex gap-5 md:text-4xl text-2xl font-bold p-4 justify-center">
+          {/* <div className=" flex gap-5 md:text-4xl text-2xl font-bold p-4 justify-center">
             <GoogleLogin 
             onSuccess={handleLoginWithGoogle}
             onError={() => { return toast.error("Google SignIn Failed")}}/>
-            {/* <FaFacebook className="text-blue-400" /> */}
-          </div>
+
+          </div> */}
         </form>
       </div>
     </section>
   );
 }
 
-export default SignIn;
+export default LoginForm;

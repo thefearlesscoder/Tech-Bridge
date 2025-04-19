@@ -1,16 +1,24 @@
-import { StrictMode } from 'react'
+// import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
 import App from './App.jsx'
+import './index.css'
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { ClerkProvider } from '@clerk/clerk-react';
+import { store } from './store/store.js';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-const clerkFrontendApi = import.meta.env.VITE_CLERK_FRONTEND_API;
 
-createRoot(document.getElementById('root')).render(
 
-  <ClerkProvider frontendApi={clerkFrontendApi}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </ClerkProvider>
+createRoot(document.getElementById("root")).render(
 
-)
+    <div className='bg-richblack-900 w-full min-h-screen'>
+      
+      <BrowserRouter>
+          <App />
+        </BrowserRouter>
+
+    </div>
+
+);

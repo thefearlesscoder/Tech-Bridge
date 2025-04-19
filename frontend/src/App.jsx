@@ -17,7 +17,6 @@ import ProjectDetail from './pages/ProjectDetail.jsx';
 function App() {
   return (
     <div className="bg-white dark:bg-gray-900 dark:text-white duration-200">
-      <Navbar />
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/signin" element={<SignupForm />} />

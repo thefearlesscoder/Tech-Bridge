@@ -55,3 +55,55 @@ A dynamic platform for tech enthusiasts to **showcase their projects**, **find c
 > 🎯 Tech-Bridge is more than a platform. It's a launchpad for ideas and innovation.  
 Feel free to contribute, suggest ideas, or reach out to the team!
 
+##Routes Mounting
+```
+  /api/v1/users
+```
+```
+/api/v1/project
+```
+```
+/api/v1/comments
+```
+```
+/api/v1/community
+```
+```
+/api/v1/apply
+```
+```
+/api/v1/purchase
+```
+
+## API Endpoints
+
+**USER**
+
+- User login (POST)
+```
+/login
+```
+- user logout (POST)
+```
+  /logout
+```
+- Refresh Access Token (POST)
+  ```
+  `/refresh-token
+  ```
+- Change-Password (POST)
+  ```
+    /change-password
+  ```
+- Get User Details (GET)
+  ```
+  /user/:id
+  ```
+- Update Deatils (POST)
+    ```
+    `/update-details
+    ```
+
+
+
+

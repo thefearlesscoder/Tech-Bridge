@@ -15,11 +15,9 @@ export const Project = () => {
         console.error("Error fetching projects:", error);
       }
     };
-
     fetchProjects();
   }, []);
     console.log("Projects", projects);
-
   return (
     <div>
         

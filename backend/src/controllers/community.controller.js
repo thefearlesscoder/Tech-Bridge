@@ -113,11 +113,12 @@ const updatePost = asyncHandler(async (req, res) => {
 
   let validProjectId = null;
   if (role === "Developer" && projectId) {
-    
     if (mongoose.Types.ObjectId.isValid(projectId)) {
-      validProjectId = new mongoose.Types.ObjectId(projectId); 
+      validProjectId = new mongoose.Types.ObjectId(projectId);
     } else {
-      return res.status(400).json(new ApiResponse(400, {}, "Invalid projectId format"));
+      return res
+        .status(400)
+        .json(new ApiResponse(400, {}, "Invalid projectId format"));
     }
   }
   const post = await CommunityPost.findById(postId);
@@ -127,7 +128,11 @@ const updatePost = asyncHandler(async (req, res) => {
   }
 
   if (post.userId.toString() !== userId.toString()) {
-    return res.status(403).json(new ApiResponse(403, {}, "You are not authorized to update this post"));
+    return res
+      .status(403)
+      .json(
+        new ApiResponse(403, {}, "You are not authorized to update this post")
+      );
   }
   const updatedPostData = { role, title, lookingFor, description };
 
@@ -139,9 +144,27 @@ const updatePost = asyncHandler(async (req, res) => {
     updatedPostData.budget = budget;
   }
 
-  const updatedPost = await CommunityPost.findByIdAndUpdate(postId, updatedPostData, { new: true });
+  const updatedPost = await CommunityPost.findByIdAndUpdate(
+    postId,
+    updatedPostData,
+    { new: true }
+  );
 
-  return res.status(200).json(new ApiResponse(200, updatedPost, "Post updated successfully"));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updatedPost, "Post updated successfully"));
+});
+
+const applyPost = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const { postId } = req.params;
+
+  const post = await CommunityPost.findById(postId);
+  if (!post) {
+    return res.status(404).json(new ApiResponse(404, {}, "Post not found"));
+  }
+  if (post.role === "VC") {
+  }
 });
 
 export { addPost, getPostOfRole, updatePost, deletePost };

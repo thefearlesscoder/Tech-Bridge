@@ -297,7 +297,11 @@ const getAllcollabProjects = asyncHandler(async (req, res) => {
 });
 
 const getCompletedProjects = asyncHandler(async (req, res) => {
-  const projects = await Project.find({ lookingForCollaborators: false })
+
+  const projects = await Project.find({
+    lookingForCollaborators: false,
+
+  })
     .populate("userId", "fullname email avatar")
     .sort({ createdAt: -1 });
 

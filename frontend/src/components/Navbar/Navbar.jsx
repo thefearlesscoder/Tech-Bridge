@@ -25,7 +25,7 @@ const Menu = [
   {
     id: 3,
     name: "Wishlist",
-    link: "/#",
+    link: '/wishlist'
   },
   {
     id: 3,
@@ -38,7 +38,7 @@ const DropdownLinks = [
   {
     id: 1,
     name: "Add project",
-    link: "/#",
+    link: "/upload-project",
   },
   {
     id: 2,

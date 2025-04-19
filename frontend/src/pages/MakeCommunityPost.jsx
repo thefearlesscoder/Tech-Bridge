@@ -7,6 +7,9 @@ import { setLoading } from "../slices/authSlice";
 
 const MakeCommunityPost = () => {
 
+
+  
+
   const [projects,setprojects ] = useState([]);
 
   const { user } = useSelector((state) => state.auth);

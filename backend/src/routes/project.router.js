@@ -25,4 +25,5 @@ router.route("/addbookmark/:projectId").post(verifyJwt, addBookmark);
 router.route("/removebookmark/:projectId").delete(verifyJwt, removeBookmark);
 router.route("/collabprojects").get(getAllcollabProjects);
 router.route("/completedprojects").get(getCompletedProjects);
+
 export default router;

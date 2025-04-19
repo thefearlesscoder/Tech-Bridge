@@ -44,23 +44,6 @@ const getCommentsForProject = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, comments, "Comments fetched successfully"));
 });
 
-// const getCommentById = asyncHandler(async (req, res) => {
-//   const { commentId } = req.params;
-
-//   const comment = await Comment.findById(commentId)
-//     .populate("userId", "fullname avatar")
-//     .exec();
-
-//   if (!comment) {
-//     return res
-//       .status(404)
-//       .json(new ApiResponse(404, {}, "Comment not found"));
-//   }
-
-//   return res
-//     .status(200)
-//     .json(new ApiResponse(200, comment, "Comment fetched successfully"));
-// });
 
 const deleteComment = asyncHandler(async (req, res) => {
   const { commentId } = req.params;
@@ -90,6 +73,5 @@ const deleteComment = asyncHandler(async (req, res) => {
 export {
   addCommentToProject,
   getCommentsForProject,
-  // getCommentById,
   deleteComment,
 };

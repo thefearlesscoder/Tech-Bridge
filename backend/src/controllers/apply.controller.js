@@ -11,7 +11,6 @@ const applyProject=asyncHandler(async (req, res) => {
       return res.status(404).json({ message: "Project not found" });
     }
 
-    // Prevent duplicate applications
     const alreadyApplied = project.interests.find(
       (interest) => interest.userId.toString() === userId.toString()
     );
@@ -20,11 +19,9 @@ const applyProject=asyncHandler(async (req, res) => {
       return res.status(400).json({ message: "You have already applied to this project" });
     }
 
-    // Add applicant to interests
     project.interests.push({ userId });
     await project.save();
 
-    // Fetch applicant's email
     const applicant = await User.findById(userId);
     if (!applicant) {
       return res.status(404).json({ message: "Applicant not found" });
@@ -35,7 +32,6 @@ const applyProject=asyncHandler(async (req, res) => {
     const ownerEmail = project.userId.email;
     const projectTitle = project.title;
 
-    // Send email to project owner
     await sendEmail({
       to: ownerEmail,
       subject: `New Application for "${projectTitle}"`,
@@ -43,7 +39,6 @@ const applyProject=asyncHandler(async (req, res) => {
              <p>Contact them at: <a href="mailto:${applicantEmail}">${applicantEmail}</a></p>`,
     });
 
-    // Send email to applicant
     await sendEmail({
       to: applicantEmail,
       subject: `Application Submitted for "${projectTitle}"`,

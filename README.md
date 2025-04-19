@@ -14,7 +14,7 @@ A dynamic platform for tech enthusiasts to **showcase their projects**, **find c
 ## 🌟 Features
 
 ### 🔐 Authentication
-- Secure login/signup via APIs
+- Secure login/signup
 
 ### 🧰 Project Management
 - Add, edit, and delete projects  

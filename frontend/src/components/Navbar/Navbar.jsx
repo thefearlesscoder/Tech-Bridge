@@ -45,6 +45,11 @@ const DropdownLinks = [
     name: "Saved Products",
     link: "/#",
   },
+  {
+    id: 3,
+    name: "Add Post",
+    link: "/make-post",
+  },
 ];
 
 const Navbar = ({ handleOrderPopup }) => {

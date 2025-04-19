@@ -8,7 +8,6 @@ import axios from "axios";
 import { setLoading } from "../../slices/authSlice";
 import { BASE_URL } from "../../../data";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 

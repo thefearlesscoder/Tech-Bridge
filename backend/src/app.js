@@ -1,11 +1,11 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import Stripe from "stripe"; // ✅ ESM-compatible import
+import Stripe from "stripe"; 
 
-const stripe = new Stripe(process.env.STRIPE_API_SRECRET_KEY); // ✅ Create Stripe instance
+const stripe = new Stripe(process.env.STRIPE_API_SRECRET_KEY); 
 
-import applyRouter from "./routes/apply.router.js";
+// import applyRouter from "./routes/apply.router.js";
 import userRouter from "./routes/user.router.js";
 import projectRouter from "./routes/project.router.js";
 import commentsRouter from "./routes/comment.router.js";
@@ -29,7 +29,7 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/project", projectRouter);
 app.use("/api/v1/comments", commentsRouter);
 app.use("/api/v1/community", communityRouter);
-app.use("/api/v1/apply", applyRouter);
+// app.use("/api/v1/apply", applyRouter);
 app.use("/api/v1/purchase", purchaseRouter);
 
 // Stripe Payment Route

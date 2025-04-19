@@ -11,9 +11,9 @@ import Navbar from "../components/Navbar/Navbar";
 import Projects from "../components/Projects/Projects";
 import TopProjects from "../components/TopProjects/TopProjects";
 
-const Dashboard = () => {
+const Dashboard = ( { searchQuery }) => {
   const [orderPopup, setOrderPopup] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+
 
   const handleOrderPopup = () => {
     setOrderPopup(!orderPopup);
@@ -31,7 +31,7 @@ const Dashboard = () => {
 
   return (
     <div className="bg-white dark:bg-gray-900 dark:text-white duration-200">
-      <Navbar handleOrderPopup={handleOrderPopup} setSearchQuery={setSearchQuery} />
+      
       
      
       {searchQuery ? (

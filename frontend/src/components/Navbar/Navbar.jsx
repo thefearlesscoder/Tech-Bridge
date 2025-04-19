@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { IoMdSearch } from "react-icons/io";
 import { FaCartShopping } from "react-icons/fa6";
 import { FaCaretDown } from "react-icons/fa";
 import DarkMode from "./DarkMode";
 import { FiShoppingBag } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {logout} from "../../slices/authSlice.js"
+import toast from "react-hot-toast";
+
 
 const Menu = [
   {
@@ -52,7 +57,10 @@ const DropdownLinks = [
   },
 ];
 
-const Navbar = ({ handleOrderPopup,setSearchQuery }) => {
+
+const Navbar = ({ setSearchQuery }) => {
+  // const [searchQuery, setSearchQuery] = useState("");
+
   return (
     <div className="shadow-md bg-white dark:bg-slate-800 dark:text-white duration-200 relative z-40">
       {/* upper Navbar */}
@@ -93,6 +101,18 @@ const Navbar = ({ handleOrderPopup,setSearchQuery }) => {
             <div>
               <DarkMode />
             </div>
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            >
+              Sign Out
+            </button>
+            <button
+              onClick={handleLogin}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Sign In
+            </button>
           </div>
         </div>
       </div>

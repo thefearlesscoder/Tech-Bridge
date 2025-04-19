@@ -44,7 +44,7 @@ A dynamic platform for tech enthusiasts to **showcase their projects**, **find c
 
 ---
 
-## 🧪 Extra Features (Time Dependent)
+## 🧪 Additional Features
 
 - 🔎 **Skill Requirement Search** — find projects that match your skills  
 - 🌐 **Community Page** — buyers can post requirements to attract developers

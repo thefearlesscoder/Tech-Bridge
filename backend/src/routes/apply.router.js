@@ -8,4 +8,5 @@ const router = express.Router();
 // Apply to a project
 router.post("/:projectId", verifyJwt,applyProject );
 
+
 export default router;

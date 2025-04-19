@@ -1,23 +1,22 @@
 import nodemailer from 'nodemailer';
-const sendEmail = async (to, messageContent, subject = "Project Sponsorship Notification") => {
+
+const sendEmail = async (to, messageContent, subject = "Project Notification") => {
   try {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
       secure: false,
       auth: {
-        user: 'vamshi2002kirankumar2005@gmail.com',
-        pass: 'nyihewcatvwyoiej', // App Password
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
       tls: {
         rejectUnauthorized: false,
       },
-      logger: true,
-      debug: true,
     });
 
     const message = {
-      from: 'vamshi2002kirankumar2005@gmail.com',
+      from: `"TechBridge Team" <${process.env.EMAIL_USER}>`,
       to,
       subject,
       html: `
@@ -28,9 +27,9 @@ const sendEmail = async (to, messageContent, subject = "Project Sponsorship Noti
     };
 
     const info = await transporter.sendMail(message);
-    console.log('✅ Email sent:', info.messageId);
+    console.log('Email sent:', info.messageId);
   } catch (error) {
-    console.error("❌ Error sending email:", error);
+    console.error(" Error sending email:", error);
     throw new Error("Email could not be sent");
   }
 };

@@ -33,7 +33,7 @@ const Dashboard = () => {
     <div className="bg-white dark:bg-gray-900 dark:text-white duration-200">
       <Navbar handleOrderPopup={handleOrderPopup} setSearchQuery={setSearchQuery} />
       
-      {/* Only show Projects if searchQuery is present */}
+     
       {searchQuery ? (
         <Projects searchQuery={searchQuery} />
       ) : (

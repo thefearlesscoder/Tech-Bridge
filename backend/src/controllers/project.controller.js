@@ -19,7 +19,7 @@ const createProject = asyncHandler(async (req, res) => {
     gitHub
   } = req.body;
 
-  if (!userId || !title || !description || !techStack?.length) {
+  if (!userId || !title || !description ) {
     throw new ApiError(
       400,
       "Missing required fields: userId, title, description, techStack"
@@ -29,7 +29,6 @@ const createProject = asyncHandler(async (req, res) => {
     userId,
     title,
     description,
-    techStack,
     category,
     pitchDeckUrl,
     gitHub,

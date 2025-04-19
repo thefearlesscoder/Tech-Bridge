@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
 const CommunityPage = () => {
+
+
   const [posts, setPosts] = useState([
     {
       id: 1,

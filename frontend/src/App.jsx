@@ -24,8 +24,8 @@ function App() {
         <Route path="/upload-project" element={<CreateProjectPage />} />
         <Route path="/community" element={<CommunityPage />} />
         <Route path="/make-post" element={<MakeCommunityPost />} />
-        <Route path="/projects/" element={<Project />} />
-        <Route path="/project-detail" element={<ProjectDetail />} />
+        <Route path="/projects" element={<Project />} />
+        <Route path="/project-detail/:id" element={<ProjectDetail />} />
       </Routes>
     </div>
   );

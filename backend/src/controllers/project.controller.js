@@ -249,7 +249,7 @@ const getAllcollabProjects = asyncHandler(async (req, res) => {
 });
 
 const getCompletedProjects = asyncHandler(async (req, res) => {
-  const userId = req.user._id;
+
   const projects = await Project.find({
     lookingForCollaborators: false,
 

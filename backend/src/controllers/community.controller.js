@@ -13,7 +13,8 @@ const addPost = asyncHandler(async (req, res) => {
     return res.status(404).json(new ApiResponse(404, {}, "User not found"));
   }
 
-  const { role, title, lookingFor, description, projectId, budget } = req.body;
+  const { role, title, lookingFor, description ,projectId, budget } = req.body;
+  console.log(req.body);
 
   if (!role || !title || !lookingFor || !description) {
     return res
@@ -29,7 +30,9 @@ const addPost = asyncHandler(async (req, res) => {
     description,
   };
 
-  if (role === "Developer" || role === "Collab") {
+  console.log(postData);
+
+  if (role === "Developer" || role === "Collab" ) {
     if (!projectId) {
       return res
         .status(400)
@@ -55,6 +58,7 @@ const addPost = asyncHandler(async (req, res) => {
     .status(201)
     .json(new ApiResponse(201, post, "Post added successfully"));
 });
+
 const getPostOfRole = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const { sortBy, role } = req.body;

@@ -70,9 +70,9 @@ const Navbar = ({ handleOrderPopup,setSearchQuery }) => {
             <div className="relative group hidden sm:block">
               <input
                 type="text"
-                placeholder="Search"
+                placeholder="Search by Category or Owner"
                 onChange={(e) => setSearchQuery(e.target.value.toLowerCase())}
-                className="w-[200px] sm:w-[200px] group-hover:w-[300px] transition-all duration-300 rounded-lg border border-gray-300 py-1 px-2
+                className="w-[200px] sm:w-[250px] group-hover:w-[300px] transition-all duration-300 rounded-lg border border-gray-300 py-1 px-2
                 text-sm focus:outline-none focus:border-1 focus:border-primary dark:border-gray-500 dark:bg-slate-800 "
               />
               <IoMdSearch className="text-slate-800 group-hover:text-primary absolute top-1/2 -translate-y-1/2 right-3" />

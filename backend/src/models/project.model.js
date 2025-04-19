@@ -92,10 +92,14 @@ const Productschema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    purchased: {
+      type: Boolean,
+      default: false,
+    },
   },
+
   { timestamps: true }
 );
 
-const Project =
-  mongoose.models.Project || mongoose.model("Project", Productschema);
+const Project = mongoose.model("Project", Productschema);
 export default Project;

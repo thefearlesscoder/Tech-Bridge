@@ -65,13 +65,16 @@ const getPostOfRole = asyncHandler(async (req, res) => {
   const sortOption = sortBy || "createdAt";
 
   const validRoles = ["Collab", "Developer", "VC"];
-  if (!validRoles.includes(role)) {
+
+  if (role && !validRoles.includes(role)) {
     return res
       .status(400)
       .json(new ApiResponse(400, {}, "Invalid role provided"));
   }
 
-  const posts = await CommunityPost.find({ role })
+  const filter = role ? { role } : {};
+
+  const posts = await CommunityPost.find(filter)
     .populate("userId", "fullname avatar")
     .sort({ [sortOption]: -1 })
     .exec();
@@ -84,6 +87,7 @@ const getPostOfRole = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, posts, "Posts fetched successfully"));
 });
+
 
 const deletePost = asyncHandler(async (req, res) => {
   const userId = req.user._id;

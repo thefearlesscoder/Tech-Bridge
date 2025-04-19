@@ -175,16 +175,13 @@ const getProjectDetails = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const userId = req.user._id;
 
-  const project = await Project.findById(id).populate(
-    "viewLogs.userId",
-    "fullname email avatar"
-  );
+  const project = await Project.findById(id)
+    .populate("viewLogs.userId", "fullname email avatar") 
+    .populate("userId", "fullname email avatar"); 
 
   if (!project) {
     throw new ApiError(404, "Project not found");
   }
-
-  // project.views += 1;
 
   if (userId) {
     const alreadyViewed = project.viewLogs.some(
@@ -202,6 +199,7 @@ const getProjectDetails = asyncHandler(async (req, res) => {
     new ApiResponse(200, project, "Project details fetched successfully")
   );
 });
+
 
 const addBookmark = asyncHandler(async (req, res) => {
   const userId = req.user._id;

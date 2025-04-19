@@ -10,7 +10,7 @@ export default function CreateProjectPage() {
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
   const [description, setDescription] = useState("");
-  const [links, setLinks] = useState(""); // New state for project links
+  const [links, setLinks] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -29,13 +29,12 @@ export default function CreateProjectPage() {
     formData.append("image1", image1);
     formData.append("image2", image2);
     formData.append("image3", image3);
-    formData.append("links", links); // Append links to the form data
+    formData.append("links", links);
 
-    console.log(formData);
     try {
       setLoading(true);
-      const res = await axios.post( `${BASE_URL}/product/addproduct` , formData, {
-        withCredentials :true ,
+      const res = await axios.post(`${BASE_URL}/product/addproduct`, formData, {
+        withCredentials: true,
       });
 
       setMessage("✅ Project created successfully!");
@@ -45,7 +44,7 @@ export default function CreateProjectPage() {
       setImage2(null);
       setImage3(null);
       setDescription("");
-      setLinks(""); // Reset links field
+      setLinks("");
     } catch (err) {
       console.error(err);
       setMessage("❌ Failed to create project.");
@@ -54,31 +53,32 @@ export default function CreateProjectPage() {
     }
   };
 
-  return (
-    loading ? ( <div><Spinner/></div> ) : ( 
-      <div className="min-h-screen dark:bg-gray-950 text-gray-900 bg-white dark:text-white flex flex-col items-center justify-start py-12 px-4">
-      <div className="w-full max-w-2xl text-gray-900 ">
+  return loading ? (
+    <div className="flex justify-center items-center h-screen bg-white dark:bg-gray-950">
+      <Spinner />
+    </div>
+  ) : (
+    <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-950 dark:text-white flex flex-col items-center justify-start py-12 px-4">
+      <div className="w-full max-w-2xl">
         <h1 className="text-3xl font-bold mb-8 text-center">
           Upload a New Project
         </h1>
 
         {message && (
-          <div className="mb-4 text-center text-sm text-yellow-400">
+          <div className="mb-4 text-center text-sm text-yellow-600 dark:text-yellow-400">
             {message}
           </div>
         )}
 
         <form
           onSubmit={handleSubmit}
-          className="dark:bg-gray-900 bg-white p-8 dark:text-white text-gray-900 rounded-lg shadow-lg space-y-6"
+          className="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white p-8 rounded-lg shadow-lg space-y-6"
         >
           <div>
-            <label className="block text-sm font-medium mb-1">
-              Project Name
-            </label>
+            <label className="block text-sm font-medium mb-1">Project Name</label>
             <input
               type="text"
-              className="w-full px-4 py-2 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 rounded bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -86,65 +86,43 @@ export default function CreateProjectPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">
-              Upload Video
-            </label>
+            <label className="block text-sm font-medium mb-1">Upload Video</label>
             <input
               type="file"
               accept="video/*"
               onChange={(e) => setVideo(e.target.files[0])}
-              className="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700"
+              className="block w-full text-sm text-gray-700 dark:text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700"
               required
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Upload Image 1
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setImage1(e.target.files[0])}
-              className="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700"
-              required
-            />
-          </div>
+          {[image1, image2, image3].map((_, i) => (
+            <div key={i}>
+              <label className="block text-sm font-medium mb-1">
+                Upload Image {i + 1}
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) =>
+                  i === 0
+                    ? setImage1(e.target.files[0])
+                    : i === 1
+                    ? setImage2(e.target.files[0])
+                    : setImage3(e.target.files[0])
+                }
+                className="block w-full text-sm text-gray-700 dark:text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700"
+                required
+              />
+            </div>
+          ))}
 
           <div>
-            <label className="block text-sm font-medium mb-1">
-              Upload Image 2
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setImage2(e.target.files[0])}
-              className="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Upload Image 3
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setImage3(e.target.files[0])}
-              className="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Project Links
-            </label>
+            <label className="block text-sm font-medium mb-1">Project Links</label>
             <input
               type="text"
-              placeholder="Add links related to the project (e.g., GitHub, Live Demo)"
-              className="w-full px-4 py-2 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="e.g., GitHub, Live Demo"
+              className="w-full px-4 py-2 rounded bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={links}
               onChange={(e) => setLinks(e.target.value)}
               required
@@ -152,11 +130,9 @@ export default function CreateProjectPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">
-              Description
-            </label>
+            <label className="block text-sm font-medium mb-1">Description</label>
             <textarea
-              className="w-full px-4 py-2 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 rounded bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               rows="5"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -174,7 +150,5 @@ export default function CreateProjectPage() {
         </form>
       </div>
     </div>
-    )
-    
   );
 }

@@ -24,7 +24,7 @@ router.route("/register").post(
   ])
 );
 
-router.route("/addproject").post(createProject);
+router.route("/addproject").post(verifyJwt,createProject);
 router.route("/deleteproject/:projectId").delete(verifyJwt, deleteProject);
 router.route("/editproject/:projectId").put(verifyJwt, editProject);
 router.route("/myprojects").get(verifyJwt, getMylist);

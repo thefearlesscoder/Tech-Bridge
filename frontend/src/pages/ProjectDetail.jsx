@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 const ProjectDetail = () => {
   const location = useLocation();
   const project = location.state?.project;
-
   if (!project) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">

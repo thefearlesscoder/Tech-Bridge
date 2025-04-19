@@ -1,139 +1,80 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Img1 from "../../assets/startupIdeas/teaching.png";
 import Img2 from "../../assets/startupIdeas/boutique.png";
 import Img3 from "../../assets/startupIdeas/books.png";
 import Img4 from "../../assets/startupIdeas/powerplant.png";
-import { FaBookmark, FaRegBookmark, FaStar } from "react-icons/fa6";
+import { FaStar } from "react-icons/fa6";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import toast from "react-hot-toast";
-import { BASE_URL } from "../../../data";
-
 const ProjectsData = [
   {
     id: 1,
-    owner: "Antony",
+    owner:"Antony",
     img: Img1,
     title: "Teaching project",
     rating: 5.0,
-    category: "Teaching",
+    category:"Teaching",
     aosDelay: "0",
-    email: "varshasakaray005@gmail.com",
+    email:"varshasakaray005@gmail.com"
   },
   {
     id: 2,
-    owner: "David",
+    owner:"David",
     img: Img2,
     title: "Boutique Idea",
     rating: 4.5,
-    category: "Teaching",
+    category:"Teaching",
     aosDelay: "200",
-    email: "varshasakaray005@gmail.com",
+    email:"varshasakaray005@gmail.com"
   },
   {
     id: 3,
-    owner: "Sushmitha",
+    owner:"Sushmitha",
     img: Img3,
     title: "Books Startup",
     rating: 4.7,
-    category: "Books",
+    category:"Books",
     aosDelay: "400",
-    email: "varshasakaray005@gmail.com",
+    email:"varshasakaray005@gmail.com"
   },
   {
     id: 4,
-    owner: "Rahul",
+    owner:"Rahul",
     img: Img4,
     title: "Power plant Startup",
     rating: 4.4,
-    category: "Power plant",
+    category:"Power plant",
     aosDelay: "600",
-    email: "varshasakaray005@gmail.com",
+    email:"varshasakaray005@gmail.com"
   },
   {
     id: 5,
-    owner: "Antony",
+    owner:"Antony",
     img: Img2,
     title: "Women startup idea",
     rating: 4.5,
-    category: "Teaching",
+    category:"Teaching",
     aosDelay: "800",
-    email: "varshasakaray005@gmail.com",
+    email:"varshasakaray005@gmail.com"
   },
 ];
 
-const handleApply = async (projectId) => {
+const handleApply =async (projectId) => {
   try {
-    const response = await axios.post(`${BASE_URL}/api/v1/apply/${projectId}`);
+    const response = await axios.post(`/api/v1/apply/${projectId}`);
     alert(response.data.message);
   } catch (error) {
     alert(error.response?.data?.message || "Something went wrong");
   }
 };
 
-const Projects = ({ searchQuery = "" }) => {
-  const { user } = useSelector((state) => state.auth);
-  console.log(user) ;
-  const [bookmarkedProjects, setBookmarkedProjects] = useState([]);
-
-  useEffect(() => {
-    if (user?._id) {  // Check if user exists and has _id
-      fetchBookmarks();
-    }
-  }, [user]);  // Add user to dependency array
-
-  const fetchBookmarks = async () => {
-    try {
-      const response = await axios.get(`${BASE_URL}/api/v1/users/bookmarks`, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${user.token}`  // Include auth token
-        }
-      });
-      setBookmarkedProjects(response.data.bookmarks || []);
-    } catch (error) {
-      console.error("Error fetching bookmarks:", error);
-    }
-  };
-
-  const handleBookmark = async (projectId) => {
-    // More robust user check
-    if (!user?._id) {
-      toast.error("Please login to bookmark projects");
-      return;
-    }
-    
-    try {
-      const response = await axios.post(
-        `${BASE_URL}/api/v1/users/bookmark/${projectId}`,
-        {},
-        { 
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${user.token}`  // Include auth token
-          }
-        }
-      );
-      
-      if (response.data.success) {
-        toast.success(response.data.message);
-        setBookmarkedProjects(prev => 
-          response.data.isBookmarked 
-            ? [...prev, projectId] 
-            : prev.filter(id => id !== projectId)
-        );
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Bookmark operation failed");
-    }
-  };
+const Projects = ({searchQuery=""}) => {
+  
   const filteredProjects = searchQuery
-    ? ProjectsData.filter(
-        (project) =>
-          project.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          project.owner.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : ProjectsData;
+  ? ProjectsData.filter((project) =>
+      project.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.owner.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  : ProjectsData;
 
   return (
     <div className="mt-14 mb-12">
@@ -157,60 +98,37 @@ const Projects = ({ searchQuery = "" }) => {
             {/* card section */}
             {filteredProjects.length > 0 ? (
               filteredProjects.map((data) => (
-                <div
-                  data-aos="fade-up"
-                  data-aos-delay={data.aosDelay}
-                  key={data.id}
-                  className="space-y-3 w-[180px] sm:w-[200px]"
-                >
-                  <img
-                    src={data.img}
-                    alt=""
-                    className="h-[220px] w-full object-cover rounded-md"
-                  />
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-semibold">{data.title}</h3>
-                      <button
-                        onClick={() => handleBookmark(data.id)}
-                        className="text-gray-400 hover:text-yellow-500 transition-colors"
-                        aria-label={
-                          bookmarkedProjects.includes(data.id)
-                            ? "Remove bookmark"
-                            : "Add bookmark"
-                        }
-                      >
-                        {bookmarkedProjects.includes(data.id) ? (
-                          <FaBookmark className="text-yellow-500" />
-                        ) : (
-                          <FaRegBookmark />
-                        )}
-                      </button>
-                    </div>
-
-                    <p className="text-sm text-gray-600">{data.category}</p>
-                    <p className="text-sm text-gray-600">
-                      Owner : {data.owner}
-                    </p>
-                    <div className="flex items-center gap-1">
-                      <FaStar className="text-yellow-400" />
-                      <span>{data.rating}</span>
-                    </div>
-                  </div>
-                  <div className="pt-2">
-                    <button
-                      onClick={() => handleApply(data._id)}
-                      className="bg-primary hover:scale-105 duration-300 text-white py-1 px-4 rounded-full mt-4 group-hover:bg-white group-hover:text-primary"
-                    >
-                      Apply Now
-                    </button>
+              <div
+                data-aos="fade-up"
+                data-aos-delay={data.aosDelay}
+                key={data.id}
+                className="space-y-3 w-[180px] sm:w-[200px]"
+              >
+                <img
+                  src={data.img}
+                  alt=""
+                  className="h-[220px] w-full object-cover rounded-md"
+                />
+                <div>
+                  <h3 className="font-semibold">{data.title}</h3>
+                  <p className="text-sm text-gray-600">{data.category}</p>
+                  <p className="text-sm text-gray-600">Owner : {data.owner}</p>
+                  <div className="flex items-center gap-1">
+                    <FaStar className="text-yellow-400" />
+                    <span>{data.rating}</span>
                   </div>
                 </div>
-              ))
-            ) : (
-              <p className="text-center text-gray-500 col-span-full">
-                No projects found.
-              </p>
+                <div className="pt-2">
+                <button
+                  onClick={() => handleApply(data._id)}
+                  className="bg-primary hover:scale-105 duration-300 text-white py-1 px-4 rounded-full mt-4 group-hover:bg-white group-hover:text-primary"
+                >
+                  Apply Now
+                </button>
+                </div>
+              </div>
+            ))): (
+              <p className="text-center text-gray-500 col-span-full">No projects found.</p>
             )}
           </div>
           {/* view all button */}

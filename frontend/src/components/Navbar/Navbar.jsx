@@ -25,7 +25,7 @@ const Menu = [
   {
     id: 3,
     name: "Wishlist",
-    link: "/#",
+    link: '/wishlist'
   },
   {
     id: 3,

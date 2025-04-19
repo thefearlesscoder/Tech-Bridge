@@ -4,15 +4,19 @@ import axios from "axios";
 export default function CreateProjectPage() {
   const [name, setName] = useState("");
   const [video, setVideo] = useState(null);
+  const [image1, setImage1] = useState(null);
+  const [image2, setImage2] = useState(null);
+  const [image3, setImage3] = useState(null);
   const [description, setDescription] = useState("");
+  const [links, setLinks] = useState(""); // New state for project links
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name || !video || !description) {
-      setMessage("⚠️ Please fill in all fields.");
+    if (!name || !video || !description || !image1 || !image2 || !image3 || !links) {
+      setMessage("⚠️ Please fill in all fields, upload all 3 images, and provide project links.");
       return;
     }
 
@@ -20,6 +24,10 @@ export default function CreateProjectPage() {
     formData.append("name", name);
     formData.append("video", video);
     formData.append("description", description);
+    formData.append("image1", image1);
+    formData.append("image2", image2);
+    formData.append("image3", image3);
+    formData.append("links", links); // Append links to the form data
 
     try {
       setLoading(true);
@@ -30,7 +38,11 @@ export default function CreateProjectPage() {
       setMessage("✅ Project created successfully!");
       setName("");
       setVideo(null);
+      setImage1(null);
+      setImage2(null);
+      setImage3(null);
       setDescription("");
+      setLinks(""); // Reset links field
     } catch (err) {
       console.error(err);
       setMessage("❌ Failed to create project.");
@@ -78,6 +90,59 @@ export default function CreateProjectPage() {
               accept="video/*"
               onChange={(e) => setVideo(e.target.files[0])}
               className="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              Upload Image 1
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setImage1(e.target.files[0])}
+              className="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              Upload Image 2
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setImage2(e.target.files[0])}
+              className="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              Upload Image 3
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setImage3(e.target.files[0])}
+              className="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              Project Links
+            </label>
+            <input
+              type="text"
+              placeholder="Add links related to the project (e.g., GitHub, Live Demo)"
+              className="w-full px-4 py-2 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={links}
+              onChange={(e) => setLinks(e.target.value)}
               required
             />
           </div>

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
+import Spinner from "../components/Snipper";
 
 export default function CreateProjectPage() {
   const [name, setName] = useState("");
@@ -16,7 +18,7 @@ export default function CreateProjectPage() {
     e.preventDefault();
 
     if (!name || !video || !description || !image1 || !image2 || !image3 || !links) {
-      setMessage("⚠️ Please fill in all fields, upload all 3 images, and provide project links.");
+      toast.error("⚠️ Please fill in all fields, upload all 3 images, and provide project links.");
       return;
     }
 
@@ -29,10 +31,11 @@ export default function CreateProjectPage() {
     formData.append("image3", image3);
     formData.append("links", links); // Append links to the form data
 
+    console.log(formData);
     try {
       setLoading(true);
-      const res = await axios.post("/api/Products", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+      const res = await axios.post( `${BASE_URL}/product/addproduct` , formData, {
+        withCredentials :true ,
       });
 
       setMessage("✅ Project created successfully!");
@@ -52,8 +55,9 @@ export default function CreateProjectPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-start py-12 px-4">
-      <div className="w-full max-w-2xl">
+    loading ? ( <div><Spinner/></div> ) : ( 
+      <div className="min-h-screen dark:bg-gray-950 text-gray-900 bg-white dark:text-white flex flex-col items-center justify-start py-12 px-4">
+      <div className="w-full max-w-2xl text-gray-900 ">
         <h1 className="text-3xl font-bold mb-8 text-center">
           Upload a New Project
         </h1>
@@ -66,7 +70,7 @@ export default function CreateProjectPage() {
 
         <form
           onSubmit={handleSubmit}
-          className="bg-gray-900 p-8 rounded-lg shadow-lg space-y-6"
+          className="dark:bg-gray-900 bg-white p-8 dark:text-white text-gray-900 rounded-lg shadow-lg space-y-6"
         >
           <div>
             <label className="block text-sm font-medium mb-1">
@@ -170,5 +174,7 @@ export default function CreateProjectPage() {
         </form>
       </div>
     </div>
+    )
+    
   );
 }

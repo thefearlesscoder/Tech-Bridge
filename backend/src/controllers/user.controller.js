@@ -52,20 +52,21 @@ const registerUser = asyncHandler(async (req, res) => {
   }
   
   
-  const avatarLocalPath = req.files?.avatar?.[0]?.path;
-  if (!avatarLocalPath) {
-    throw new ApiError(400, "Avatar is required");
-  }
+  // const avatarLocalPath = req.files?.avatar?.[0]?.path;
+  // if (!avatarLocalPath) {
+  //   throw new ApiError(400, "Avatar is required");
+  // }
   
-  const avatarUrl = await uploadOnCloudinary(avatarLocalPath);
-  if (!avatarUrl?.url) {
-    throw new ApiError(500, "Failed to upload avatar to Cloudinary");
-  }
+  // const avatarUrl = await uploadOnCloudinary(avatarLocalPath);
+  // if (!avatarUrl?.url) {
+  //   throw new ApiError(500, "Failed to upload avatar to Cloudinary");
+  // }
+
   const newUser = new User({
     fullname,
     email,
     password,
-    avatar: avatarUrl.url,
+    avatar: "",
     bio,
     website,
     linkedin,
@@ -195,9 +196,12 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     );
 
     const options = {
-      httpOnly: true, 
-      secure: true,
+      httpOnly: false, // JS can access (not recommended for auth cookies)
+      secure: false, // true if you're on HTTPS
+      sameSite: "Lax", // use "None" only if needed and with secure: true
+      maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
     };
+
     console.log("refresh tokennlkwfklweff");
 
     return res

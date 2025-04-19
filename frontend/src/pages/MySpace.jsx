@@ -27,6 +27,8 @@ export const MySpace = () => {
     fetchMyPosts();
   }, []);
 
+  
+
   console.log("My Posts", myPosts);
 
   return (

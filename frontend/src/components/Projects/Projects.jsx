@@ -11,7 +11,7 @@ const ProjectsData = [
     img: Img1,
     title: "Teaching project",
     rating: 5.0,
-    color: "white",
+    category:"Teaching",
     aosDelay: "0",
   },
   {
@@ -19,7 +19,7 @@ const ProjectsData = [
     img: Img2,
     title: "Boutique Idea",
     rating: 4.5,
-    color: "Red",
+    category:"Teaching",
     aosDelay: "200",
   },
   {
@@ -27,7 +27,7 @@ const ProjectsData = [
     img: Img3,
     title: "Books Startup",
     rating: 4.7,
-    color: "brown",
+    category:"Books",
     aosDelay: "400",
   },
   {
@@ -35,7 +35,7 @@ const ProjectsData = [
     img: Img4,
     title: "Power plant Startup",
     rating: 4.4,
-    color: "Yellow",
+    category:"Power plant",
     aosDelay: "600",
   },
   {
@@ -43,12 +43,17 @@ const ProjectsData = [
     img: Img2,
     title: "Women startup idea",
     rating: 4.5,
-    color: "Pink",
+    category:"Teaching",
     aosDelay: "800",
   },
 ];
 
-const Projects = () => {
+const Projects = ({searchQuery=""}) => {
+  const filteredProjects = searchQuery
+    ? ProjectsData.filter((project) =>
+        project.category.toLowerCase().includes(searchQuery)
+      )
+    : ProjectsData;
   return (
     <div className="mt-14 mb-12">
       <div className="container">
@@ -69,7 +74,8 @@ const Projects = () => {
         <div>
           <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 place-items-center gap-5">
             {/* card section */}
-            {ProjectsData.map((data) => (
+            {filteredProjects.length > 0 ? (
+              filteredProjects.map((data) => (
               <div
                 data-aos="fade-up"
                 data-aos-delay={data.aosDelay}
@@ -83,14 +89,16 @@ const Projects = () => {
                 />
                 <div>
                   <h3 className="font-semibold">{data.title}</h3>
-                  <p className="text-sm text-gray-600">{data.color}</p>
+                  <p className="text-sm text-gray-600">{data.category}</p>
                   <div className="flex items-center gap-1">
                     <FaStar className="text-yellow-400" />
                     <span>{data.rating}</span>
                   </div>
                 </div>
               </div>
-            ))}
+            ))): (
+              <p className="text-center text-gray-500 col-span-full">No projects found.</p>
+            )}
           </div>
           {/* view all button */}
           <div className="flex justify-center">

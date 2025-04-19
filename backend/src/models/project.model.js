@@ -22,13 +22,25 @@ const projectSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      default: "",
+      enum: [
+        "MERN",
+        "AI/ML",
+        "Blockchain",
+        "Web3",
+        "DevOps",
+        "Mobile",
+        "GameDev",
+        "Cybersecurity",
+        "Other",
+      ],
+      default: "Other",
     },
+
     pitchDeckUrl: {
       type: String,
       default: "",
     },
-    demoUrl: {
+    gitHub: {
       type: String,
       default: "",
     },
@@ -50,7 +62,7 @@ const projectSchema = new mongoose.Schema(
     },
     isFeatured: {
       type: Boolean,
-      default: false, 
+      default: false,
     },
     views: {
       type: Number,
@@ -62,10 +74,6 @@ const projectSchema = new mongoose.Schema(
           type: mongoose.Schema.Types.ObjectId,
           ref: "User",
         },
-        message: {
-          type: String,
-          default: "",
-        },
         timestamp: {
           type: Date,
           default: Date.now,
@@ -76,5 +84,6 @@ const projectSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Project = mongoose.models.Project || mongoose.model("Project", projectSchema);
+const Project =
+  mongoose.models.Project || mongoose.model("Project", projectSchema);
 export default Project;

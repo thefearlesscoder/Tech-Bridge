@@ -24,11 +24,12 @@ import projectRouter from "./routes/project.router.js"
 import commentsRouter from "./routes/comment.router.js"
 import communityRouter from "./routes/community.router.js"
 import purchaseRouter from "./routes/purchase.router.js"
+import applicationRouter from "./routes/application.router.js"
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/project", projectRouter);
 app.use("/api/v1/comments", commentsRouter);
 app.use("/api/v1/community", communityRouter);
 // app.use("/api/v1/apply/",applyRouter);
 app.use("/api/v1/purchase", purchaseRouter);
-
+app.use("/api/v1/application", applicationRouter);
 export { app };

@@ -1,9 +1,16 @@
 import { Router } from "express";
-import { addPost } from "../controllers/community.controller.js";
+import {
+  addPost,
+  getPostOfRole,
+  updatePost,
+  deletePost,
+} from "../controllers/community.controller.js";
 import { upload } from "../middleware/multer.middleware.js";
 import { verifyJwt } from "../middleware/auth.middleware.js";
 const router = Router();
 
 router.route("/addpost").post(verifyJwt, addPost);
-
+router.route("/getpostofrole").post(verifyJwt, getPostOfRole);
+router.route("/updatepost/:postId").put(verifyJwt, updatePost);
+router.route("/deletepost/:postId").delete(verifyJwt, deletePost);
 export default router;

@@ -1,13 +1,12 @@
 import express from "express";
-import { verifyToken } from "../middlewares/auth.js";
 import Project from "../models/project.model.js";
 import sendEmail from "../utils/sendEmail.js";
-import User from "../models/user.model.js";
-
+import { verifyJwt } from "../middleware/auth.middleware.js";
+import { User } from "../models/user.model.js";
 const router = express.Router();
 
 // Apply to a project
-router.post("/:projectId", verifyToken, async (req, res) => {
+router.post("/:projectId", verifyJwt, async (req, res) => {
   try {
     const { projectId } = req.params;
     const userId = req.user._id;

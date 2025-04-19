@@ -1,39 +1,22 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const CommunityPage = () => {
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      title: "Looking for a Frontend Developer",
-      description: "We need a React developer to build the UI for our project.",
-      skills: ["React", "JavaScript", "CSS"],
-      remuneration: "$500",
-      applicants: 0,
-    },
-    {
-      id: 2,
-      title: "Backend Developer Needed",
-      description: "Seeking a Node.js developer to handle server-side logic.",
-      skills: ["Node.js", "Express", "MongoDB"],
-      remuneration: "$700",
-      applicants: 0,
-    },
-    {
-      id: 3,
-      title: "UI/UX Designer Wanted",
-      description: "Looking for a designer to create wireframes and prototypes.",
-      skills: ["Figma", "Adobe XD", "Creativity"],
-      remuneration: "$300",
-      applicants: 0,
-    },
-  ]);
+    const [posts, setPosts] = useState([]);
 
-  const [newPost, setNewPost] = useState({
-    title: "",
-    description: "",
-    skills: "",
-    remuneration: "",
-  });
+    useEffect(() => {
+        const fetchPosts = async () => {
+          try {
+            const response = await axios.get("http://localhost:8000/api/v1/community/getpostofrole");
+            setPosts(response.data); 
+          } catch (error) {
+            console.error("Error fetching posts:", error);
+          }
+        };
+    
+        fetchPosts();
+      }, []);
+
 
   const handleApply = (id) => {
     setPosts((prevPosts) =>
@@ -44,30 +27,8 @@ const CommunityPage = () => {
     alert(`Applied to: ${posts.find((post) => post.id === id).title}`);
   };
 
-  const handleNewPostChange = (e) => {
-    const { name, value } = e.target;
-    setNewPost((prevPost) => ({ ...prevPost, [name]: value }));
-  };
 
-  const handleNewPostSubmit = (e) => {
-    e.preventDefault();
-    if (!newPost.title || !newPost.description || !newPost.skills || !newPost.remuneration) {
-      alert("Please fill in all fields.");
-      return;
-    }
 
-    const newPostData = {
-      id: posts.length + 1,
-      title: newPost.title,
-      description: newPost.description,
-      skills: newPost.skills.split(",").map((skill) => skill.trim()), // Convert skills to an array
-      remuneration: newPost.remuneration,
-      applicants: 0,
-    };
-
-    setPosts((prevPosts) => [newPostData, ...prevPosts]);
-    setNewPost({ title: "", description: "", skills: "", remuneration: "" });
-  };
 
   return (
     <div className="min-h-screen bg-gray-950 text-white py-10 px-4">

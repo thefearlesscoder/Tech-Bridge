@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import applyRouter from "./routes/apply.router.js"
+// import applyRouter from "./routes/apply.router.js"
 const app = express();
 
 app.use(cors({
@@ -28,7 +28,7 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/project", projectRouter);
 app.use("/api/v1/comments", commentsRouter);
 app.use("/api/v1/community", communityRouter);
-app.use("/api/v1/apply/",applyRouter);
+// app.use("/api/v1/apply/",applyRouter);
 app.use("/api/v1/purchase", purchaseRouter);
 
 export { app };

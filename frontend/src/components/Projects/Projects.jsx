@@ -8,6 +8,7 @@ import { FaStar } from "react-icons/fa6";
 const ProjectsData = [
   {
     id: 1,
+    owner:"Antony",
     img: Img1,
     title: "Teaching project",
     rating: 5.0,
@@ -16,6 +17,7 @@ const ProjectsData = [
   },
   {
     id: 2,
+    owner:"David",
     img: Img2,
     title: "Boutique Idea",
     rating: 4.5,
@@ -24,6 +26,7 @@ const ProjectsData = [
   },
   {
     id: 3,
+    owner:"Sushmitha",
     img: Img3,
     title: "Books Startup",
     rating: 4.7,
@@ -32,6 +35,7 @@ const ProjectsData = [
   },
   {
     id: 4,
+    owner:"Rahul",
     img: Img4,
     title: "Power plant Startup",
     rating: 4.4,
@@ -40,6 +44,7 @@ const ProjectsData = [
   },
   {
     id: 5,
+    owner:"Antony",
     img: Img2,
     title: "Women startup idea",
     rating: 4.5,
@@ -50,10 +55,12 @@ const ProjectsData = [
 
 const Projects = ({searchQuery=""}) => {
   const filteredProjects = searchQuery
-    ? ProjectsData.filter((project) =>
-        project.category.toLowerCase().includes(searchQuery)
-      )
-    : ProjectsData;
+  ? ProjectsData.filter((project) =>
+      project.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.owner.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  : ProjectsData;
+
   return (
     <div className="mt-14 mb-12">
       <div className="container">
@@ -90,6 +97,7 @@ const Projects = ({searchQuery=""}) => {
                 <div>
                   <h3 className="font-semibold">{data.title}</h3>
                   <p className="text-sm text-gray-600">{data.category}</p>
+                  <p className="text-sm text-gray-600">Owner : {data.owner}</p>
                   <div className="flex items-center gap-1">
                     <FaStar className="text-yellow-400" />
                     <span>{data.rating}</span>

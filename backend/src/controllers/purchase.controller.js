@@ -10,7 +10,7 @@ const createPurchase = asyncHandler(async (req, res) => {
   const { productId } = req.params;
   const { amountPaid, paymentMethod, transactionId } = req.body;
 
-  if (!productId || !amountPaid || !paymentMethod || !transactionId) {
+  if (!productId || !amountPaid  || !transactionId) {
     return res
       .status(400)
       .json(
@@ -46,7 +46,7 @@ const createPurchase = asyncHandler(async (req, res) => {
     userId,
     productId,
     amountPaid,
-    paymentMethod,
+    paymentMethod : paymentMethod || "Credit Card",
     transactionId,
   });
 

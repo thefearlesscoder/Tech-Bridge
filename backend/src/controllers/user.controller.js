@@ -50,22 +50,23 @@ const registerUser = asyncHandler(async (req, res) => {
   if (existingUser) {
     throw new ApiError(409, "Email already exists");
   }
-
-  const avatarLocalPath = req.files?.avatar?.[0]?.path;
-  if (!avatarLocalPath) {
-    throw new ApiError(400, "Avatar is required");
-  }
-
-  const avatarUrl = await uploadOnCloudinary(avatarLocalPath);
-  if (!avatarUrl?.url) {
-    throw new ApiError(500, "Failed to upload avatar to Cloudinary");
-  }
+  
+  
+  // const avatarLocalPath = req.files?.avatar?.[0]?.path;
+  // if (!avatarLocalPath) {
+  //   throw new ApiError(400, "Avatar is required");
+  // }
+  
+  // const avatarUrl = await uploadOnCloudinary(avatarLocalPath);
+  // if (!avatarUrl?.url) {
+  //   throw new ApiError(500, "Failed to upload avatar to Cloudinary");
+  // }
 
   const newUser = new User({
     fullname,
     email,
     password,
-    avatar: avatarUrl.url,
+    avatar: "",
     bio,
     website,
     linkedin,
@@ -77,7 +78,9 @@ const registerUser = asyncHandler(async (req, res) => {
   const refreshToken = await newUser.generateRefreshToken();
 
   newUser.refreshToken = refreshToken;
+  console.log("jhdjh");
   await newUser.save();
+  // console.log("jhdjh");
 
   const userToReturn = await User.findById(newUser._id).select(
     "-password -refreshToken"
@@ -97,7 +100,7 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const loginUser = asyncHandler(async (req, res) => {
-  const { password, email } = req.body;
+const { password, email } = req.body;
 
   if (!email || !password) {
     throw new ApiError(400, "all fields are required");
@@ -193,9 +196,12 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     );
 
     const options = {
-      httpOnly: true, 
-      secure: true,
+      httpOnly: false, // JS can access (not recommended for auth cookies)
+      secure: false, // true if you're on HTTPS
+      sameSite: "Lax", // use "None" only if needed and with secure: true
+      maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
     };
+
     console.log("refresh tokennlkwfklweff");
 
     return res
@@ -251,30 +257,76 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 
 
 
+const getUserDetails = asyncHandler(async (req, res) => {
+  const userId = req.user._id || req.params.id;
+
+  if (!userId) {
+    throw new ApiError(400, "User ID is required");
+  }
+
+  const user = await User.findById(userId).select(
+    "-password -refreshToken -__v"
+  );
+
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  return res.status(200).json(
+    new ApiResponse(200, user, "User details retrieved successfully")
+  );
+});
+
+
 const updatedAccountDetails = asyncHandler(async (req, res) => {
-  const { fullname, email } = req.body;
-  if (!fullname || !email) {
-    throw new ApiError(400, "Fullname and email are required");
+  const {
+    fullname,
+    email,
+    avatar,
+    bio,
+    skills,
+    interests,
+    linkedin,
+    website,
+  } = req.body;
+
+  if (!fullname || !email || !linkedin) {
+    throw new ApiError(400, "Fullname, email, and LinkedIn are required");
   }
-  const existUser = await User.findOne({ email: email });
+
+  const existUser = await User.findOne({
+    email: email,
+    _id: { $ne: req.user._id }
+  });
+
   if (existUser) {
-    throw new ApiError(400, "thie email already exists");
+    throw new ApiError(400, "This email already exists");
   }
+
   const user = await User.findByIdAndUpdate(
-    req.user?._id,
+    req.user._id,
     {
       $set: {
         fullname,
         email,
+        avatar,
+        bio,
+        skills,
+        interests,
+        linkedin,
+        website,
       },
     },
     { new: true }
-  ).select("-password"); 
+  ).select("-password -refreshToken");
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, user, "Account details updated successfully"));
+  return res.status(200).json(
+    new ApiResponse(200, user, "Account details updated successfully")
+  );
 });
+
+
+
 
 const updateUserAvatar = asyncHandler(async (req, res) => {
   const avatarLocalPath = req.files?.avatar[0].path;
@@ -318,4 +370,6 @@ export {
   getCurrentUser,
   updatedAccountDetails,
   updateUserAvatar,
+  getUserDetails
+  
 };

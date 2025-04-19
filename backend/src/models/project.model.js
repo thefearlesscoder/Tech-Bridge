@@ -16,19 +16,31 @@ const Productschema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    techStack: {
-      type: [String],
-      default: [],
-    },
+    // techStack: {
+    //   type: [String],
+    //   default: [],
+    // },
     category: {
-      type: String,
-      default: "",
+      type: [String],
+      enum: [
+        "WEB",
+        "AI/ML",
+        "Blockchain",
+        "Web3",
+        "DevOps",
+        "Mobile",
+        "GameDev",
+        "Cybersecurity",
+        "Other",
+      ],
+      default: "Other",
     },
+
     pitchDeckUrl: {
       type: String,
       default: "",
     },
-    demoUrl: {
+    gitHub: {
       type: String,
       default: "",
     },
@@ -50,7 +62,7 @@ const Productschema = new mongoose.Schema(
     },
     isFeatured: {
       type: Boolean,
-      default: false, 
+      default: false,
     },
     views: {
       type: Number,
@@ -61,10 +73,6 @@ const Productschema = new mongoose.Schema(
         userId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User",
-        },
-        message: {
-          type: String,
-          default: "",
         },
         timestamp: {
           type: Date,

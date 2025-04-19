@@ -38,7 +38,7 @@ const DropdownLinks = [
   {
     id: 1,
     name: "Add project",
-    link: "/#",
+    link: "/upload-project",
   },
   {
     id: 2,
@@ -91,7 +91,7 @@ const Navbar = ({ handleOrderPopup }) => {
         </div>
       </div>
       {/* lower Navbar */}
-      <div data-aos="zoom-in" className="flex justify-center">
+      <div data-aos="zoom-in" className="flex justify-center ">
         <ul className="sm:flex hidden items-center gap-4">
           {Menu.map((data) => (
             <li key={data.id}>
@@ -105,7 +105,7 @@ const Navbar = ({ handleOrderPopup }) => {
           ))}
           {/* Simple Dropdown and Links */}
           <li className="group relative cursor-pointer">
-            <a href="#" className="flex items-center gap-[2px] py-2">
+            <a href="#" className="flex items-center gap-[2px] py-2 ">
               Trending Projects
               <span>
                 <FaCaretDown className="transition-all duration-200 group-hover:rotate-180" />

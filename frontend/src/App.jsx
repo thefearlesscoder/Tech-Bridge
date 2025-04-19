@@ -13,9 +13,9 @@ import "aos/dist/aos.css";
 function App() {
   return (
     <div className="bg-white dark:bg-gray-900 dark:text-white duration-200">
+      <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/signin" element={<SignupForm />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/upload-project" element={<CreateProjectPage />} />

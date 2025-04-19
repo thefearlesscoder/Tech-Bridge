@@ -16,6 +16,7 @@ const createProject = asyncHandler(async (req, res) => {
     mediaUrls,
     lookingForCollaborators,
     requiredSkills,
+    gitHub
   } = req.body;
 
   if (!userId || !title || !description || !techStack?.length) {
@@ -31,7 +32,7 @@ const createProject = asyncHandler(async (req, res) => {
     techStack,
     category,
     pitchDeckUrl,
-    demoUrl,
+    gitHub,
     mediaUrls,
     lookingForCollaborators,
     requiredSkills,

@@ -2,21 +2,12 @@ import { Router } from "express";
 import {
   addCommentToProject,
   getCommentsForProject,
-  getCommentById,
+  // getCommentById,
   deleteComment,
 } from "../controllers/comments.controller.js";
 import { upload } from "../middleware/multer.middleware.js";
 import { verifyJwt } from "../middleware/auth.middleware.js";
 const router = Router();
-
-router.route("/register").post(
-  upload.fields([
-    {
-      name: "avatar",
-      maxCount: 1,
-    },
-  ])
-);
 
 router.route("/addcomment/:projectId").post(verifyJwt, addCommentToProject);
 router.route("/deletecomment/:commentId").delete(verifyJwt, deleteComment);

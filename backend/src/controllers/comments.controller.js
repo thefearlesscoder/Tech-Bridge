@@ -1,7 +1,5 @@
-
 import Comment from "../models/comment.models.js";
 import Project from "../models/project.model.js";
-import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
@@ -12,7 +10,9 @@ const addCommentToProject = asyncHandler(async (req, res) => {
 
   const project = await Project.findById(projectId);
   if (!project) {
-    throw new ApiError(404, "Project not found");
+    return res
+      .status(404)
+      .json(new ApiResponse(404, {}, "Project not found"));
   }
 
   const comment = await Comment.create({
@@ -34,7 +34,9 @@ const getCommentsForProject = asyncHandler(async (req, res) => {
     .exec();
 
   if (!comments || comments.length === 0) {
-    throw new ApiError(404, "No comments found for this project");
+    return res
+      .status(404)
+      .json(new ApiResponse(404, {}, "No comments found for this project"));
   }
 
   return res
@@ -42,21 +44,23 @@ const getCommentsForProject = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, comments, "Comments fetched successfully"));
 });
 
-const getCommentById = asyncHandler(async (req, res) => {
-  const { commentId } = req.params;
+// const getCommentById = asyncHandler(async (req, res) => {
+//   const { commentId } = req.params;
 
-  const comment = await Comment.findById(commentId)
-    .populate("userId", "fullname avatar")
-    .exec();
+//   const comment = await Comment.findById(commentId)
+//     .populate("userId", "fullname avatar")
+//     .exec();
 
-  if (!comment) {
-    throw new ApiError(404, "Comment not found");
-  }
+//   if (!comment) {
+//     return res
+//       .status(404)
+//       .json(new ApiResponse(404, {}, "Comment not found"));
+//   }
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, comment, "Comment fetched successfully"));
-});
+//   return res
+//     .status(200)
+//     .json(new ApiResponse(200, comment, "Comment fetched successfully"));
+// });
 
 const deleteComment = asyncHandler(async (req, res) => {
   const { commentId } = req.params;
@@ -65,11 +69,15 @@ const deleteComment = asyncHandler(async (req, res) => {
   const comment = await Comment.findById(commentId);
 
   if (!comment) {
-    throw new ApiError(404, "Comment not found");
+    return res
+      .status(404)
+      .json(new ApiResponse(404, {}, "Comment not found"));
   }
 
   if (comment.userId.toString() !== userId.toString()) {
-    throw new ApiError(403, "You are not authorized to delete this comment");
+    return res
+      .status(403)
+      .json(new ApiResponse(403, {}, "You are not authorized to delete this comment"));
   }
 
   await Comment.findByIdAndDelete(commentId);
@@ -82,6 +90,6 @@ const deleteComment = asyncHandler(async (req, res) => {
 export {
   addCommentToProject,
   getCommentsForProject,
-  getCommentById,
+  // getCommentById,
   deleteComment,
 };

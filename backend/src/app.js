@@ -22,11 +22,11 @@ app.use(cookieParser());
 import userRouter  from "./routes/user.router.js" 
 import projectRouter from "./routes/project.router.js"
 import commentsRouter from "./routes/comment.router.js"
-
+import communityRouter from "./routes/community.router.js"
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/project", projectRouter);
 app.use("/api/v1/comments", commentsRouter);
-
+app.use("/api/v1/community", communityRouter);
 
 
 export { app };

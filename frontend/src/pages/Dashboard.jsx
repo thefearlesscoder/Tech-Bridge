@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Hero from "../components/Hero/Hero";
-TopProjects
 import Banner from "../components/Banner/Banner";
 import Subscribe from "../components/Subscribe/Subscribe";
 import Testimonials from "../components/Testimonials/Testimonials";
@@ -12,14 +11,15 @@ import Navbar from "../components/Navbar/Navbar";
 import Projects from "../components/Projects/Projects";
 import TopProjects from "../components/TopProjects/TopProjects";
 
-const Dashboard = () => {
-  const [orderPopup, setOrderPopup] = React.useState(false);
+const Dashboard = ( { searchQuery }) => {
+  const [orderPopup, setOrderPopup] = useState(false);
+
 
   const handleOrderPopup = () => {
     setOrderPopup(!orderPopup);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     AOS.init({
       offset: 100,
       duration: 800,
@@ -31,12 +31,22 @@ const Dashboard = () => {
 
   return (
     <div className="bg-white dark:bg-gray-900 dark:text-white duration-200">
-      <Hero handleOrderPopup={handleOrderPopup} />
-      <Projects />
-      <TopProjects handleOrderPopup={handleOrderPopup} />
-      <Banner />
-      <Subscribe />
-      <Testimonials />
+      
+      
+     
+      {searchQuery ? (
+        <Projects searchQuery={searchQuery} />
+      ) : (
+        <>
+          <Hero handleOrderPopup={handleOrderPopup} />
+          <Projects />
+          <TopProjects handleOrderPopup={handleOrderPopup} />
+          <Banner />
+          <Subscribe />
+          <Testimonials />
+        </>
+      )}
+
       <Footer />
       <Popup orderPopup={orderPopup} setOrderPopup={setOrderPopup} />
     </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { IoMdSearch } from "react-icons/io";
 import { FaCartShopping } from "react-icons/fa6";
@@ -52,7 +52,9 @@ const DropdownLinks = [
   },
 ];
 
-const Navbar = ({ handleOrderPopup,setSearchQuery }) => {
+const Navbar = ({ setSearchQuery }) => {
+  // const [searchQuery, setSearchQuery] = useState("");
+
   return (
     <div className="shadow-md bg-white dark:bg-slate-800 dark:text-white duration-200 relative z-40">
       {/* upper Navbar */}

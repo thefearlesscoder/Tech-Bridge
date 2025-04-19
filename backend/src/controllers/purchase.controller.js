@@ -20,6 +20,13 @@ const createPurchase = asyncHandler(async (req, res) => {
         )
       );
   }
+  const alreadyPurchased = await Purchase.findOne({
+    productId,
+  });
+  if (alreadyPurchased) {
+    return res.status(400).json(new ApiResponse(400, null, "Already purchased"));
+  }
+
 
   const project = await Project.findById(productId);
   if (!project) {
@@ -58,7 +65,7 @@ const createPurchase = asyncHandler(async (req, res) => {
 
 const getPurchases = asyncHandler(async (req, res) => {
   const userId = req.user._id;
-  
+
   const purchases = await Purchase.find({ userId }).populate(
     "productId",
     "title description price"

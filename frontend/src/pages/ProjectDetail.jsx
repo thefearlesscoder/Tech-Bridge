@@ -5,64 +5,47 @@ import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { BASE_URL } from "../../data";
 
+
 const ProjectDetail = () => {
   const { id } = useParams();
-
-  const project1 = {
-    category: ["WEB"],
-    createdAt: "2025-04-19T10:25:41.473Z",
-    description:
-      "A tool that uses NLP and ML algorithms to evaluate resumes and match candidates with job descriptions in real-time.",
-    gitHub: "https://resumely.vercel.app",
-    interests: [],
-    isApproved: false,
-    isFeatured: false,
-    lookingForCollaborators: false,
-    mediaUrls: [
-      "https://www.youtube.com/watch?v=odemiExeDU8",
-    ],
-    pitchDeckUrl: "https://example.com/pitch-deck.pdf",
-    price: 2012,
-    purchased: false,
-    requiredSkills: ["NLP", "Machine Learning", "UI/UX", "Python"],
-    title: "AI-Powered Resume Analyzer",
-    updatedAt: "2025-04-19T10:25:41.473Z",
-    userId: {
-      _id: "68031e67917d625433f6917e",
-      fullname: "Jack Sparrow",
-      avatar:
-        "http://res.cloudinary.com/chai-or-code/image/upload/v1745034904/TechBridge/ab0ious83by7e5adsvvz.jpg",
-      email: "v52166400@gmail.com",
-    },
-    viewLogs: [],
-    views: 0,
-    __v: 0,
-    _id: "68037a25ab757c05e49ff81e",
-  };
-
-  const[ project, setProject] = useState({});
+  const [project, setProject] = useState({});
+  const [mybookmark, setMybookmark] = useState([]);
 
   const getProjectDetails = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(
-        `${BASE_URL}/project/details/${id}`,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.get(`${BASE_URL}/project/details/${id}`, {
+        withCredentials: true,
+      });
       console.log(res.data);
       setProject(res.data?.data);
     } catch (error) {
       console.error("Error fetching project details:", error);
       toast.error("Failed to fetch project details.");
-    }finally{
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  const getMyBookmark = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(`${BASE_URL}/project/bookmarkedprojects`, {
+        withCredentials: true,
+      });
+      console.log(res.data);
+      setMybookmark(res.data?.data);
+    } catch (error) {
+      console.error("Error fetching bookmarks:", error);
+      toast.error("Failed to fetch bookmarks.");
+    } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
     getProjectDetails();
+    getMyBookmark();
   }, []);
 
   if (!project) {
@@ -73,12 +56,48 @@ const ProjectDetail = () => {
     );
   }
 
+  const handlewishlist = async() => {
+    setLoading(true);
+    try {
+
+      if ( mybookmark.includes(id) ) {
+        const res = await axios.delete(
+          `${BASE_URL}/project/removebookmark/${id}`,
+          { withCredentials: true }
+        );
+
+        console.log(res.data);
+        toast.success("Removed from wishlist!");
+        setMybookmark((prev) => prev.filter((item) => item !== project._id));
+        setLoading(false);
+        console.log(mybookmark)
+        return;
+      }
+      
+      const res = await axios.post(
+        `${BASE_URL}/project/addbookmark/${id}`,
+        {},
+        { withCredentials: true }
+      );
+      console.log(res.data);
+      toast.success("Added to wishlist!");
+      setMybookmark((prev) => [...prev, project._id]);
+      console.log("mybook -> ",mybookmark)
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+      toast.error("Failed to add to wishlist.");
+    }finally {
+      setLoading(false);
+    }
+  }
+
   const {
     userId,
     title,
     description,
     category,
     views,
+    viewLogs,
     lookingForCollaborators,
     requiredSkills,
     price,
@@ -87,17 +106,35 @@ const ProjectDetail = () => {
     mediaUrls,
   } = project;
 
+  const len = viewLogs?.length || 0;
+
+  const handleAddToWishlist = () => {
+    toast.success("Added to Wishlist!");
+    // You can also send a POST request to save wishlist to DB if needed
+  };
+
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white py-10 px-4">
       <div className="max-w-5xl mx-auto bg-gray-900 border border-gray-700 shadow-xl rounded-2xl p-8 space-y-10">
+
         {/* Title and Category */}
         <div className="space-y-2 text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white">
-            {title}
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white">{title}</h1>
           <p className="text-sm text-gray-400">
             <strong>Category:</strong> {category?.join(", ")}
           </p>
+
+          {/* Wishlist Button */}
+          <div className="flex justify-center mt-4">
+            <button
+              onClick={handlewishlist}
+              className={`${
+                mybookmark.includes(id) ? "bg-red-600 hover:bg-red-700" : "bg-pink-600 hover:bg-pink-700"
+              } text-white font-semibold px-6 py-2 rounded-xl transition duration-300`}
+            >
+              {mybookmark.includes(id) ? "Remove from Wishlist" : "Add to Wishlist"}
+            </button>
+          </div>
         </div>
 
         {/* Owner Info */}
@@ -108,25 +145,21 @@ const ProjectDetail = () => {
             className="w-14 h-14 rounded-full border border-purple-600 object-cover"
           />
           <div>
-            <h3 className="text-lg font-medium text-white">
-              {userId?.fullname}
-            </h3>
+            <h3 className="text-lg font-medium text-white">{userId?.fullname}</h3>
             <p className="text-sm text-gray-400">{userId?.email}</p>
           </div>
         </div>
 
         {/* Description */}
         <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 shadow">
-          <h3 className="text-2xl font-semibold mb-3 text-purple-400">
-            Description
-          </h3>
+          <h3 className="text-2xl font-semibold mb-3 text-purple-400">Description</h3>
           <p className="text-gray-300 leading-loose">{description}</p>
         </div>
 
         {/* Required Skills */}
         <div>
           <h3 className="text-2xl font-semibold mb-4 text-purple-400">
-            Tech Used
+            Full Tech Stack / Tools Used
           </h3>
           <div className="flex flex-wrap gap-3">
             {requiredSkills?.map((skill, index) => (
@@ -141,7 +174,7 @@ const ProjectDetail = () => {
         </div>
 
         {/* GitHub & Pitch Deck */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 items-center">
           {gitHub && (
             <a
               href={gitHub}
@@ -152,7 +185,6 @@ const ProjectDetail = () => {
               GitHub Repository
             </a>
           )}
-          
         </div>
 
         {/* Media Preview */}
@@ -164,7 +196,7 @@ const ProjectDetail = () => {
               const isVideo =
                 url.endsWith(".mp4") ||
                 url.endsWith(".mov") ||
-                url.includes("cloudinary.com") && url.includes("video");
+                (url.includes("cloudinary.com") && url.includes("video"));
               const isImage =
                 url.endsWith(".jpg") ||
                 url.endsWith(".jpeg") ||
@@ -173,10 +205,9 @@ const ProjectDetail = () => {
                 url.endsWith(".gif");
 
               if (isYouTube) {
-                const videoId =
-                  url.includes("v=")
-                    ? url.split("v=")[1]?.split("&")[0]
-                    : url.split("/").pop();
+                const videoId = url.includes("v=")
+                  ? url.split("v=")[1]?.split("&")[0]
+                  : url.split("/").pop();
                 return (
                   <div key={index} className="my-6">
                     <iframe
@@ -221,18 +252,17 @@ const ProjectDetail = () => {
           </div>
         )}
 
-
         {/* Price & Views */}
         <div className="flex flex-wrap gap-6 text-sm text-gray-400">
           <p>
             <strong>💰 Price:</strong> ₹{price}
           </p>
           <p>
-            <strong>👀 Views:</strong> {views}
+            <strong>👀 Views:</strong> {len}
           </p>
         </div>
 
-        {/* Collaborator Info */}
+        {/* Collaborator Info or Buy Button */}
         {lookingForCollaborators ? (
           <div className="bg-yellow-700/20 border border-yellow-600 rounded-xl p-4 shadow">
             <p className="text-yellow-400 font-bold text-center">

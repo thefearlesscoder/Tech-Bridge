@@ -310,6 +310,25 @@ const getCompletedProjects = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, projects, "Project list fetched successfully"));
 });
 
+const getBookmarkedProjects = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const user = await User.findById(userId)
+  console.log("User bookmarks: ", user.bookmarks);
+  console.log(user);
+  
+  if (!user) {
+    return res
+      .status(404)
+      .json(new ApiResponse(404, null, "User not found"));
+  }
+
+  const bookmarks = user.bookmarks;
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, bookmarks, "Bookmarked projects fetched successfully"));
+})
+
 export {
   createProject,
   deleteProject,
@@ -321,4 +340,5 @@ export {
   removeBookmark,
   getAllcollabProjects,
   getCompletedProjects,
+  getBookmarkedProjects
 };

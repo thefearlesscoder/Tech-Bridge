@@ -10,6 +10,7 @@ import {
   removeBookmark,
   getAllcollabProjects,
   getCompletedProjects,
+  getBookmarkedProjects
 } from "../controllers/project.controller.js";
 import { upload } from "../middleware/multer.middleware.js";
 import { verifyJwt } from "../middleware/auth.middleware.js";
@@ -24,7 +25,8 @@ router.route("/projects").get(verifyJwt, getProjectList);
 router.route("/details/:id").get(verifyJwt, getProjectDetails);
 router.route("/addbookmark/:projectId").post(verifyJwt, addBookmark);
 router.route("/removebookmark/:projectId").delete(verifyJwt, removeBookmark);
-router.route("/collabprojects").get( getAllcollabProjects);
+router.route("/bookmarkedprojects").get(verifyJwt, getBookmarkedProjects);
+router.route("/collabprojects").get(getAllcollabProjects);
 router.route("/completedprojects").get(getCompletedProjects);
 export default router;
 

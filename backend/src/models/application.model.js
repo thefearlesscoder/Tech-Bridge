@@ -12,6 +12,10 @@ const applicationSchema = new mongoose.Schema(
       ref: "CommunityPost",
       required: true,
     },
+    message: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

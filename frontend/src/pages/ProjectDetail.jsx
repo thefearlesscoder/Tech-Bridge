@@ -26,7 +26,7 @@ const ProjectDetail = () => {
         { withCredentials: true }
       );
       console.log("Payment response:", res.data);
-      setProject(res.data?.data);
+      set
       console.log("Payment successful!");
       toast.success("Payment successful! Thank you for your purchase.");
     } catch (e) {

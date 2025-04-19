@@ -49,22 +49,28 @@ const CommunityPage = () => {
     <div className="min-h-screen bg-gray-950 text-white py-10 px-4">
       <h1 className="text-3xl font-bold text-center mb-8">Community Posts</h1>
 
-      {/* Filter Dropdown */}
       <div className="mb-6 text-center">
-        <label htmlFor="role-filter" className="mr-2 text-lg font-medium">
-          Filter by Role:
-        </label>
-        <select
-          id="role-filter"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          className="bg-gray-800 text-white px-4 py-2 rounded-lg border border-gray-600"
-        >
-          <option value="All">All</option>
-          <option value="VC">VC</option>
-          <option value="Collab">Collab</option>
-        </select>
-      </div>
+  <label htmlFor="role-filter" className="text-lg font-medium mr-4">
+    Filter by Role:
+  </label>
+  <div className="inline-block relative">
+    <select
+      id="role-filter"
+      value={role}
+      onChange={(e) => setRole(e.target.value)}
+      className="appearance-none bg-gray-700 text-white py-2 pl-4 pr-7 rounded-lg border border-gray-600 "
+    >
+      <option value="All">All</option>
+      <option value="VC">VC</option>
+      <option value="Collab">Collab</option>
+    </select>
+    {/* Custom dropdown arrow */}
+    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400">
+      ▼
+    </div>
+  </div>
+</div>
+
 
       {/* Posts Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -74,7 +80,7 @@ const CommunityPage = () => {
             className="bg-gray-800 border border-gray-700 rounded-lg p-6 shadow-lg flex flex-col justify-between"
           >
             <div>
-              <h2 className="text-xl font-semibold text-purple-400 mb-2">
+              <h2 className="text-xl font-semibold text-white mb-2">
                 {post.title}
               </h2>
               <p className="text-gray-300 mb-4">{post.description}</p>
@@ -82,7 +88,7 @@ const CommunityPage = () => {
               <h3 className="text-sm font-medium text-gray-400 mb-2">
                 Looking For:
               </h3>
-              <ul className="list-disc list-inside text-gray-300 mb-4">
+              <ul className="list-disc list-inside text-gray-400 mb-4">
                 {post.lookingFor.map((skill, index) => (
                   <li key={index}>{skill}</li>
                 ))}
@@ -99,7 +105,7 @@ const CommunityPage = () => {
               </p>
             </div>
             <button
-              className="mt-4 bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-lg transition"
+              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition"
               onClick={() => handleApply(post._id)}
             >
               Apply Now

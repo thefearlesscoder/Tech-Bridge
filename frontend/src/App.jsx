@@ -15,6 +15,8 @@ import { Project } from './pages/Project.jsx'
 import ProjectDetail from './pages/ProjectDetail.jsx'
 import { MySpace } from './pages/MySpace.jsx'
 import WishlistPage from './pages/WishlistPage.jsx'
+import StripePayment from './pages/Payment/StripePayment.jsx'
+import PaymentSuccess from './pages/Payment/PayementSuccess.jsx'
 
 function App() {
   useEffect(() => {
@@ -42,6 +44,8 @@ function App() {
         <Route path="/project-detail/:id" element={<ProjectDetail />} />
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/my-space" element={<MySpace />} />
+        <Route path="payment" element={<StripePayment />} />
+        <Route path="/success" element={<PaymentSuccess />} />
       </Routes>
     </div>
   )

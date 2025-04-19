@@ -174,10 +174,8 @@ const addBookmark = asyncHandler(async (req, res) => {
   const alreadyBookmarked = user.bookmarks.includes(projectId);
   if (alreadyBookmarked) throw new ApiError(400, "Project already bookmarked");
 
-
   user.bookmarks.push(projectId);
   await user.save();
-
 
   const alreadyInterested = project.interests.some(
     (interest) => interest.userId.toString() === userId.toString()
@@ -189,13 +187,15 @@ const addBookmark = asyncHandler(async (req, res) => {
     await project.save();
   }
 
-  res.status(200).json(
-    new ApiResponse(
-      200,
-      { bookmarks: user.bookmarks, interests: project.interests },
-      "Bookmark and interest added successfully"
-    )
-  );
+  res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { bookmarks: user.bookmarks, interests: project.interests },
+        "Bookmark and interest added successfully"
+      )
+    );
 });
 
 const removeBookmark = asyncHandler(async (req, res) => {
@@ -211,25 +211,54 @@ const removeBookmark = asyncHandler(async (req, res) => {
   const wasBookmarked = user.bookmarks.includes(projectId);
   if (!wasBookmarked) throw new ApiError(400, "Project not bookmarked");
 
-
   user.bookmarks = user.bookmarks.filter(
     (bookmarkId) => bookmarkId.toString() !== projectId
   );
   await user.save();
 
-  
   project.interests = project.interests.filter(
     (interest) => interest.userId.toString() !== userId.toString()
   );
   await project.save();
 
-  res.status(200).json(
-    new ApiResponse(
-      200,
-      { bookmarks: user.bookmarks, interests: project.interests },
-      "Bookmark and interest removed successfully"
-    )
-  );
+  res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { bookmarks: user.bookmarks, interests: project.interests },
+        "Bookmark and interest removed successfully"
+      )
+    );
+});
+
+const getAllcollabProjects = asyncHandler(async (req, res) => {
+  console.log("getAllcollabProjects called");
+  
+  const userId = req.user._id;
+  const projects = await Project.find({
+    lookingForCollaborators: true,
+  })
+    .populate("userId", "fullname email avatar")
+    .sort({ createdAt: -1 });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, projects, "Project list fetched successfully"));
+});
+
+const getCompletedProjects = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const projects = await Project.find({
+    lookingForCollaborators: false,
+
+  })
+    .populate("userId", "fullname email avatar")
+    .sort({ createdAt: -1 });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, projects, "Project list fetched successfully"));
 });
 
 export {
@@ -241,4 +270,6 @@ export {
   getProjectDetails,
   addBookmark,
   removeBookmark,
+  getAllcollabProjects,
+  getCompletedProjects,
 };

@@ -50,17 +50,17 @@ const registerUser = asyncHandler(async (req, res) => {
   if (existingUser) {
     throw new ApiError(409, "Email already exists");
   }
-
+  
+  
   const avatarLocalPath = req.files?.avatar?.[0]?.path;
   if (!avatarLocalPath) {
     throw new ApiError(400, "Avatar is required");
   }
-
+  
   const avatarUrl = await uploadOnCloudinary(avatarLocalPath);
   if (!avatarUrl?.url) {
     throw new ApiError(500, "Failed to upload avatar to Cloudinary");
   }
-
   const newUser = new User({
     fullname,
     email,
@@ -77,7 +77,9 @@ const registerUser = asyncHandler(async (req, res) => {
   const refreshToken = await newUser.generateRefreshToken();
 
   newUser.refreshToken = refreshToken;
+  console.log("jhdjh");
   await newUser.save();
+  // console.log("jhdjh");
 
   const userToReturn = await User.findById(newUser._id).select(
     "-password -refreshToken"
@@ -97,7 +99,7 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const loginUser = asyncHandler(async (req, res) => {
-  const { password, email } = req.body;
+const { password, email } = req.body;
 
   if (!email || !password) {
     throw new ApiError(400, "all fields are required");

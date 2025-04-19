@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { setLoading } from "../slices/authSlice";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { BASE_URL } from "../../data";
 
@@ -271,9 +271,11 @@ const ProjectDetail = () => {
           </div>
         ) : (
           <div className="flex justify-center">
+            <Link to="/payment">
             <button className="bg-green-500 text-white font-bold py-2 px-6 rounded-xl shadow-lg hover:bg-green-600 transition duration-300">
               Buy Now
             </button>
+            </Link>
           </div>
         )}
       </div>

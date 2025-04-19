@@ -13,7 +13,6 @@ const createProject = asyncHandler(async (req, res) => {
     techStack,
     category,
     pitchDeckUrl,
-    demoUrl,
     mediaUrls,
     lookingForCollaborators,
     requiredSkills,

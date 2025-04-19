@@ -103,7 +103,36 @@ Feel free to contribute, suggest ideas, or reach out to the team!
     ```
     `/update-details
     ```
+** PROJECT ROUTES **
 
+```
+("/addproject").post
+("/deleteproject/:projectId").delete
+("/editproject/:projectId").put
+("/myprojects").get
+router.route("/projects").get
+("/projects").get
+("/addbookmark/:projectId").post
+("/removebookmark/:projectId").delete
+("/bookmarkedprojects").get
+("/collabprojects").get
+("/completedprojects").get
+```
 
+** COMMUNITY ROUTES **
 
+```
+  ("/addpost").post
+  ("/getpostofrole").post
+  ("/updatepost/:postId").put
+  ("/deletepost/:postId").delete
+  ("/getmyposts").get
+```
+** COMMENT ROUTES **
+
+```
+  ("/addcomment/:projectId").post
+  ("/deletecomment/:commentId").delete
+  ("/comments/:projectId").get
+```
 

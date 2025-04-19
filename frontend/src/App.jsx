@@ -13,6 +13,7 @@ import CommunityPage from './pages/CommunityPage.jsx';
 import MakeCommunityPost from './pages/MakeCommunityPost.jsx';
 import { Project } from './pages/Project.jsx';
 import ProjectDetail from './pages/ProjectDetail.jsx';
+import { MySpace } from './pages/MySpace.jsx';
 
 function App() {
   return (
@@ -26,6 +27,8 @@ function App() {
         <Route path="/make-post" element={<MakeCommunityPost />} />
         <Route path="/projects" element={<Project />} />
         <Route path="/project-detail/:id" element={<ProjectDetail />} />
+        <Route path="/my-space" element={<MySpace />} />
+        
       </Routes>
     </div>
   );

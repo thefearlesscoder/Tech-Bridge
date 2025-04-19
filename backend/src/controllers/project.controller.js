@@ -1,6 +1,5 @@
 import Project from "../models/project.model.js";
 import { User } from "../models/user.model.js";
-import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
@@ -16,25 +15,34 @@ const createProject = asyncHandler(async (req, res) => {
     mediaUrls,
     lookingForCollaborators,
     requiredSkills,
-    gitHub
+    gitHub,
+    price
   } = req.body;
 
-  if (!userId || !title || !description ) {
-    throw new ApiError(
-      400,
-      "Missing required fields: userId, title, description, techStack"
-    );
+  if (!userId || !title || !description) {
+    return res
+      .status(400)
+      .json(
+        new ApiResponse(
+          400,
+          null,
+          "Missing required fields: userId, title, description"
+        )
+      );
   }
+
   const project = new Project({
     userId,
     title,
     description,
+    techStack,
     category,
     pitchDeckUrl,
     gitHub,
     mediaUrls,
     lookingForCollaborators,
     requiredSkills,
+    price
   });
 
   const saved = await project.save();
@@ -50,11 +58,21 @@ const deleteProject = asyncHandler(async (req, res) => {
   const project = await Project.findById(projectId);
 
   if (!project) {
-    throw new ApiError(404, "Project not found");
+    return res
+      .status(404)
+      .json(new ApiResponse(404, null, "Project not found"));
   }
 
   if (project.userId.toString() !== userId.toString()) {
-    throw new ApiError(403, "You are not authorized to delete this project");
+    return res
+      .status(403)
+      .json(
+        new ApiResponse(
+          403,
+          null,
+          "You are not authorized to delete this project"
+        )
+      );
   }
 
   await Project.deleteOne({ _id: projectId });
@@ -82,11 +100,21 @@ const editProject = asyncHandler(async (req, res) => {
   const project = await Project.findById(projectId);
 
   if (!project) {
-    throw new ApiError(404, "Project not found");
+    return res
+      .status(404)
+      .json(new ApiResponse(404, null, "Project not found"));
   }
 
   if (project.userId.toString() !== userId.toString()) {
-    throw new ApiError(403, "You are not authorized to edit this project");
+    return res
+      .status(403)
+      .json(
+        new ApiResponse(
+          403,
+          null,
+          "You are not authorized to edit this project"
+        )
+      );
   }
 
   project.title = title || project.title;
@@ -111,13 +139,12 @@ const editProject = asyncHandler(async (req, res) => {
 
 const getMylist = asyncHandler(async (req, res) => {
   const userId = req.user._id;
-  const user = await User.findById(userId);
-  // console.log("userId", userId);
-
-  const projects = await Project.find({ userId: userId });
+  const projects = await Project.find({ userId });
 
   if (!projects || projects.length === 0) {
-    throw new ApiError(404, "No projects found for this user");
+    return res
+      .status(404)
+      .json(new ApiResponse(404, [], "No projects found for this user"));
   }
 
   return res
@@ -129,7 +156,6 @@ const getProjectList = asyncHandler(async (req, res) => {
   const { topic } = req.query;
 
   let filter = {};
-  console.log("topic", topic);
   if (topic) {
     filter = {
       category: { $regex: topic, $options: "i" },
@@ -147,19 +173,34 @@ const getProjectList = asyncHandler(async (req, res) => {
 
 const getProjectDetails = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const project = await Project.findById(id)
-    .populate("userId", "fullname email avatar linkedin")
-    .populate("interests.userId", "fullname email")
-    .exec();
+  const userId = req.user._id;
+
+  const project = await Project.findById(id).populate(
+    "viewLogs.userId",
+    "fullname email avatar"
+  );
 
   if (!project) {
     throw new ApiError(404, "Project not found");
   }
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(200, project, "Project details fetched successfully")
+
+  // project.views += 1;
+
+  if (userId) {
+    const alreadyViewed = project.viewLogs.some(
+      (log) => log.userId._id.toString() === userId.toString()
     );
+
+    if (!alreadyViewed) {
+      project.viewLogs.push({ userId });
+    }
+  }
+
+  await project.save();
+
+  return res.status(200).json(
+    new ApiResponse(200, project, "Project details fetched successfully")
+  );
 });
 
 const addBookmark = asyncHandler(async (req, res) => {
@@ -167,13 +208,21 @@ const addBookmark = asyncHandler(async (req, res) => {
   const { projectId } = req.params;
 
   const user = await User.findById(userId);
-  if (!user) throw new ApiError(404, "User not found");
+  if (!user)
+    return res.status(404).json(new ApiResponse(404, null, "User not found"));
 
   const project = await Project.findById(projectId);
-  if (!project) throw new ApiError(404, "Project not found");
+  if (!project)
+    return res
+      .status(404)
+      .json(new ApiResponse(404, null, "Project not found"));
 
   const alreadyBookmarked = user.bookmarks.includes(projectId);
-  if (alreadyBookmarked) throw new ApiError(400, "Project already bookmarked");
+  if (alreadyBookmarked) {
+    return res
+      .status(400)
+      .json(new ApiResponse(400, null, "Project already bookmarked"));
+  }
 
   user.bookmarks.push(projectId);
   await user.save();
@@ -182,9 +231,7 @@ const addBookmark = asyncHandler(async (req, res) => {
     (interest) => interest.userId.toString() === userId.toString()
   );
   if (!alreadyInterested) {
-    project.interests.push({
-      userId: userId,
-    });
+    project.interests.push({ userId });
     await project.save();
   }
 
@@ -204,13 +251,21 @@ const removeBookmark = asyncHandler(async (req, res) => {
   const { projectId } = req.params;
 
   const user = await User.findById(userId);
-  if (!user) throw new ApiError(404, "User not found");
+  if (!user)
+    return res.status(404).json(new ApiResponse(404, null, "User not found"));
 
   const project = await Project.findById(projectId);
-  if (!project) throw new ApiError(404, "Project not found");
+  if (!project)
+    return res
+      .status(404)
+      .json(new ApiResponse(404, null, "Project not found"));
 
   const wasBookmarked = user.bookmarks.includes(projectId);
-  if (!wasBookmarked) throw new ApiError(400, "Project not bookmarked");
+  if (!wasBookmarked) {
+    return res
+      .status(400)
+      .json(new ApiResponse(400, null, "Project not bookmarked"));
+  }
 
   user.bookmarks = user.bookmarks.filter(
     (bookmarkId) => bookmarkId.toString() !== projectId
@@ -234,12 +289,7 @@ const removeBookmark = asyncHandler(async (req, res) => {
 });
 
 const getAllcollabProjects = asyncHandler(async (req, res) => {
-  console.log("getAllcollabProjects called");
-  
-  const userId = req.user._id;
-  const projects = await Project.find({
-    lookingForCollaborators: true,
-  })
+  const projects = await Project.find({ lookingForCollaborators: true })
     .populate("userId", "fullname email avatar")
     .sort({ createdAt: -1 });
 

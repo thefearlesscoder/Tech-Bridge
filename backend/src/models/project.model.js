@@ -64,10 +64,18 @@ const Productschema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    views: {
-      type: Number,
-      default: 0,
-    },
+    viewLogs: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+        timestamp: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
     interests: [
       {
         userId: {
@@ -80,9 +88,18 @@ const Productschema = new mongoose.Schema(
         },
       },
     ],
+    price: {
+      type: Number,
+      default: 0,
+    },
+    purchased: {
+      type: Boolean,
+      default: false,
+    },
   },
+
   { timestamps: true }
 );
 
-const Project = mongoose.models.Project || mongoose.model("Project", Productschema);
+const Project = mongoose.model("Project", Productschema);
 export default Project;

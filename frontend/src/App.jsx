@@ -11,6 +11,8 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import CommunityPage from './pages/CommunityPage.jsx';
 import MakeCommunityPost from './pages/MakeCommunityPost.jsx';
+import { Project } from './pages/Project.jsx';
+import ProjectDetail from './pages/ProjectDetail.jsx';
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Route path="/upload-project" element={<CreateProjectPage />} />
         <Route path="/community" element={<CommunityPage />} />
         <Route path="/make-post" element={<MakeCommunityPost />} />
+        <Route path="/projects/" element={<Project />} />
+        <Route path="/project-detail" element={<ProjectDetail />} />
       </Routes>
     </div>
   );

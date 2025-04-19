@@ -1,2 +1,3 @@
 # Tech-Bridge
-A platform for tech enthuciasts to show case their projects, find collaborators, and raise funds.
+
+A platform for tech enthuciasts to show case their Products, find collaborators, and raise funds.

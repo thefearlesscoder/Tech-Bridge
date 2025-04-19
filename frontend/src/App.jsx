@@ -40,6 +40,7 @@ function App() {
         <Route path="/project-detail/:id" element={<ProjectDetail />} />
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/my-space" element={<MySpace />} />
+
       </Routes>
     </div>
   )

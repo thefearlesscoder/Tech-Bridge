@@ -4,7 +4,7 @@ import Img2 from "../../assets/startupIdeas/boutique.png";
 import Img3 from "../../assets/startupIdeas/books.png";
 import Img4 from "../../assets/startupIdeas/powerplant.png";
 import { FaStar } from "react-icons/fa6";
-
+import axios from "axios";
 const ProjectsData = [
   {
     id: 1,
@@ -14,6 +14,7 @@ const ProjectsData = [
     rating: 5.0,
     category:"Teaching",
     aosDelay: "0",
+    email:"varshasakaray005@gmail.com"
   },
   {
     id: 2,
@@ -23,6 +24,7 @@ const ProjectsData = [
     rating: 4.5,
     category:"Teaching",
     aosDelay: "200",
+    email:"varshasakaray005@gmail.com"
   },
   {
     id: 3,
@@ -32,6 +34,7 @@ const ProjectsData = [
     rating: 4.7,
     category:"Books",
     aosDelay: "400",
+    email:"varshasakaray005@gmail.com"
   },
   {
     id: 4,
@@ -41,6 +44,7 @@ const ProjectsData = [
     rating: 4.4,
     category:"Power plant",
     aosDelay: "600",
+    email:"varshasakaray005@gmail.com"
   },
   {
     id: 5,
@@ -50,8 +54,18 @@ const ProjectsData = [
     rating: 4.5,
     category:"Teaching",
     aosDelay: "800",
+    email:"varshasakaray005@gmail.com"
   },
 ];
+
+const handleApply =async (projectId) => {
+  try {
+    const response = await axios.post(`/api/v1/apply/${projectId}`);
+    alert(response.data.message);
+  } catch (error) {
+    alert(error.response?.data?.message || "Something went wrong");
+  }
+};
 
 const Projects = ({searchQuery=""}) => {
   const filteredProjects = searchQuery
@@ -87,12 +101,12 @@ const Projects = ({searchQuery=""}) => {
                 data-aos="fade-up"
                 data-aos-delay={data.aosDelay}
                 key={data.id}
-                className="space-y-3"
+                className="space-y-3 w-[180px] sm:w-[200px]"
               >
                 <img
                   src={data.img}
                   alt=""
-                  className="h-[220px] w-[150px] object-cover rounded-md"
+                  className="h-[220px] w-full object-cover rounded-md"
                 />
                 <div>
                   <h3 className="font-semibold">{data.title}</h3>
@@ -102,6 +116,14 @@ const Projects = ({searchQuery=""}) => {
                     <FaStar className="text-yellow-400" />
                     <span>{data.rating}</span>
                   </div>
+                </div>
+                <div className="pt-2">
+                <button
+                  onClick={() => handleApply(data._id)}
+                  className="bg-primary hover:scale-105 duration-300 text-white py-1 px-4 rounded-full mt-4 group-hover:bg-white group-hover:text-primary"
+                >
+                  Apply Now
+                </button>
                 </div>
               </div>
             ))): (

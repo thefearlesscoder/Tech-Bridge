@@ -1,15 +1,48 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { setLoading } from "../slices/authSlice";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { BASE_URL } from "../../data";
-
+import { useSelector } from "react-redux";
+import { loadStripe } from "@stripe/stripe-js";
+import { useNavigate } from "react-router-dom";
 
 const ProjectDetail = () => {
   const { id } = useParams();
   const [project, setProject] = useState({});
   const [mybookmark, setMybookmark] = useState([]);
+
+  const [searchParams] = useSearchParams();
+  const paymentStatus = searchParams.get("payment");
+  const sessionId = searchParams.get("session_id");
+
+
+  const paymentdone = async () => { 
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/purchase/${id}`,
+        { sessionId },
+        { withCredentials: true }
+      );
+      console.log("Payment response:", res.data);
+      setProject(res.data?.data);
+      console.log("Payment successful!");
+      toast.success("Payment successful! Thank you for your purchase.");
+    } catch (e) {
+      console.log("Payment error:", e);
+      toast.error("Payment failed. Please try again.");
+    }
+  }
+  useEffect( () => {
+    if (paymentStatus === "success") {
+
+      paymentdone();
+    }
+  }, [paymentStatus]);
+
+  const { token , loading } =  useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const getProjectDetails = async () => {
     setLoading(true);
@@ -111,6 +144,79 @@ const ProjectDetail = () => {
   const handleAddToWishlist = () => {
     toast.success("Added to Wishlist!");
     // You can also send a POST request to save wishlist to DB if needed
+  };
+
+
+  // payment integration
+  
+  const makePayment = async () => {
+    try {
+      const stripe = await loadStripe(
+        "pk_test_51QJ5RTAI8xVNoO7TqaukjHHfkOi5Nj0OPYYTToUwQkjukxrZ3RH0QZ92gH1bvqyUlxevQAz0hIHqkSomC1FFrPtQ00CCVZnGM8"
+      );
+
+      const body = {
+        project ,
+      };
+
+      const headers = {
+        "Content-Type": "application/json",
+      };
+
+      const response = await fetch(
+        `${BASE_URL}/project/create-checkout-session`,
+        {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(body),
+          credentials: "include" 
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to create checkout session");
+      }
+
+      // console.log(response) ;
+      const session = await response.json();
+      console.log("Session object:", session); // Debug: Check session data
+
+      if (!session.id) {
+        throw new Error("Session ID is missing in the response");
+      }
+
+      // Redirect to Stripe Checkout
+      const result = await stripe.redirectToCheckout({
+        sessionId: session.id,
+      });
+
+      console.log("Result from Stripe:", result); // Debug: Check result data
+      // console.log(result)
+      if (result.error) {
+        console.error(result.error.message);
+      }
+      
+      // addingDetails() ;
+      // navigate(session.session_url) ;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+
+    // toast.success("Payment Success");
+  };
+
+  const commonfun = async () => {
+    // makePayment() ;
+    if (token == null || token == undefined ) {
+        toast.error("You need to login") ;
+    }else {
+
+      const res = await makePayment();
+      
+        // await makePayment() ;
+        // navigate(`/register-succes/${id}`);
+        // toast.success("Registed successfull");
+    }
   };
 
   return (
@@ -271,7 +377,7 @@ const ProjectDetail = () => {
           </div>
         ) : (
           <div className="flex justify-center">
-            <button className="bg-green-500 text-white font-bold py-2 px-6 rounded-xl shadow-lg hover:bg-green-600 transition duration-300">
+            <button onClick={commonfun} className="bg-green-500 text-white font-bold py-2 px-6 rounded-xl shadow-lg hover:bg-green-600 transition duration-300">
               Buy Now
             </button>
           </div>

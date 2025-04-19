@@ -57,7 +57,7 @@ export default function CreateProjectPage() {
   return (
     loading ? ( <div><Spinner/></div> ) : ( 
       <div className="min-h-screen dark:bg-gray-950 text-gray-900 bg-white dark:text-white flex flex-col items-center justify-start py-12 px-4">
-      <div className="w-full max-w-2xl">
+      <div className="w-full max-w-2xl text-gray-900 ">
         <h1 className="text-3xl font-bold mb-8 text-center">
           Upload a New Project
         </h1>
@@ -70,7 +70,7 @@ export default function CreateProjectPage() {
 
         <form
           onSubmit={handleSubmit}
-          className="dark:bg-gray-900 bg-white p-8 rounded-lg shadow-lg space-y-6"
+          className="dark:bg-gray-900 bg-white p-8 dark:text-white text-gray-900 rounded-lg shadow-lg space-y-6"
         >
           <div>
             <label className="block text-sm font-medium mb-1">

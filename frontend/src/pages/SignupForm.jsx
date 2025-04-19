@@ -3,6 +3,10 @@ import { useState } from "react"
 
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
+import { setLoading } from "../slices/authSlice"
+import axios from "axios"
+import { BASE_URL } from "../../data"
+import toast from "react-hot-toast"
 
 
 function SignupForm() {
@@ -34,9 +38,44 @@ function SignupForm() {
     console.log(formData) 
   }
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async(e) => {
     e.preventDefault();
     // dispatch(signUp(firstName , lastName , email , password , confirmPassword , role , username ,navigate ));
+    console.log(firstName , lastName , email , password , confirmPassword , role , username) ;
+    setLoading(true);
+    try {
+
+      console.log("Sending data to backend...") ;
+      const res = await axios.post(`${BASE_URL}/users/register`, {
+        fullname : firstName + " " + lastName , email , password , linkedin :username } ,{
+          withCredentials: true,
+        }) ;
+
+      
+        console.log(res) ;
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          username:"",
+        })
+
+        if ( res?.data?.success ) {
+          console.log("Registration successful");
+          toast.success(res?.data?.message || "Registration successful");
+          navigate("/login");
+        }else {
+          console.log("Registration failed");
+          toast.error(res?.data?.message || "Registration failed");
+        }
+      
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
+    setLoading(false);
+
   }
 
   const handleclick = () => {
@@ -103,7 +142,7 @@ function SignupForm() {
 
               </div> */}
             <div className="mb-4 ">
-              <label className="block text-gray-700 mb-2">UserName</label>
+              <label className="block text-gray-700 mb-2">Linkdin Url</label>
               <div className="flex items-center border border-gray-300 ">
                 <input
                   type="text"

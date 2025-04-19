@@ -1,6 +1,6 @@
 import React from "react";
 import Hero from "../components/Hero/Hero";
-TopProjects
+// TopProjects
 import Banner from "../components/Banner/Banner";
 import Subscribe from "../components/Subscribe/Subscribe";
 import Testimonials from "../components/Testimonials/Testimonials";

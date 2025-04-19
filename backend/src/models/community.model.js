@@ -9,7 +9,7 @@ const communityPostSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["VC", "Developer"],
+      enum: ["VC", "Developer", "Collab"],
       required: true,
     },
     title: {

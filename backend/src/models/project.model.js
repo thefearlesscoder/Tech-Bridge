@@ -16,14 +16,14 @@ const Productschema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    techStack: {
-      type: [String],
-      default: [],
-    },
+    // techStack: {
+    //   type: [String],
+    //   default: [],
+    // },
     category: {
-      type: String,
+      type: [String],
       enum: [
-        "MERN",
+        "WEB",
         "AI/ML",
         "Blockchain",
         "Web3",

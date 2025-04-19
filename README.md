@@ -4,10 +4,11 @@ A dynamic platform for tech enthusiasts to **showcase their projects**, **find c
 
 ## 👨‍💻 Collaborators
 
-- **Sakaray Varsha**  
-- **Vivek Kumar**  
-- **Kunal Sonkar**  
-- **Varun Kumar Sahu**
+
+- [**Sakaray Varsha**](https://github.com/Varshasakaray)  
+- [**Vivek Kumar**](https://github.com/thefearlesscoder)  
+- [**Kunal Sonkar**](https://github.com/Kunalsonkar07)  
+- [**Varun Kumar Sahu**](https://github.com/vks-07)
 
 ---
 

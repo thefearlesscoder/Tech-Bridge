@@ -4,11 +4,7 @@ import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema(
   {
-    clerkId: {
-      type: String,
-      // required: true,
-      unique: true,
-    },
+    
     fullname: {
       type: String,
       required: true,

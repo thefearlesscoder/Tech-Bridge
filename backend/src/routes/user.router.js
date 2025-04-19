@@ -8,7 +8,7 @@ import {
   getCurrentUser,
   updatedAccountDetails,
   updateUserAvatar,
-  updateUsercoverImage,
+  getUserDetails
 } from "../controllers/user.controller.js";
 import { upload } from "../middleware/multer.middleware.js";
 import { verifyJwt } from "../middleware/auth.middleware.js";
@@ -33,16 +33,10 @@ router.route("/getCurrentUser").get(verifyJwt, getCurrentUser);
 router.route("/update-details").post(verifyJwt, updatedAccountDetails);
 router.route("/update-avatar").post(
   verifyJwt,
-  upload.fields([{ name: "avatar", maxCount: 1 }]), // Fix here
+  upload.fields([{ name: "avatar", maxCount: 1 }]), 
   updateUserAvatar
 );
+router.route("/user/:id").get(verifyJwt, getUserDetails);
 
-router
-  .route("/update-coverImage")
-  .post(
-    verifyJwt,
-    upload.fields({ name: "coverImage", maxCount: 1 }),
-    updateUsercoverImage
-  );
 
 export default router;

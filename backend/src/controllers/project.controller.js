@@ -42,6 +42,7 @@ const createProject = asyncHandler(async (req, res) => {
     .status(201)
     .json(new ApiResponse(201, saved, "Project created successfully"));
 });
+
 const deleteProject = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const { projectId } = req.params;
@@ -62,6 +63,7 @@ const deleteProject = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, null, "Project deleted successfully"));
 });
+
 const editProject = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const { projectId } = req.params;

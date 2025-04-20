@@ -3,7 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import Stripe from "stripe"; 
 
-const stripe = new Stripe(process.env.STRIPE_API_SRECRET_KEY); 
+// const stripe = new Stripe(process.env.STRIPE_API_SRECRET_KEY); 
 
 // import applyRouter from "./routes/apply.router.js";
 import userRouter from "./routes/user.router.js";

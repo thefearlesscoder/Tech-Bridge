@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { IoMdSearch } from "react-icons/io";
 import { FaCartShopping } from "react-icons/fa6";
@@ -6,7 +6,7 @@ import { FaCaretDown } from "react-icons/fa";
 import DarkMode from "./DarkMode";
 import { FiShoppingBag } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {logout} from "../../slices/authSlice.js"
 import toast from "react-hot-toast";
 
@@ -58,8 +58,23 @@ const DropdownLinks = [
 ];
 
 
-const Navbar = ({ setSearchQuery }) => {
-  // const [searchQuery, setSearchQuery] = useState("");
+const Navbar = ({ handleOrderPopup,setSearchQuery }) => {
+  const navigate=useNavigate();
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userinfo");
+    dispatch(logout());
+    navigate("/signin");
+    toast.success("Logged out successfully");
+  };
+
+  const { user } = useSelector((state) => state.auth);
+  console.log(user);
+
+  const handleLogin = () => {
+    navigate("/signin");
+  };
 
   return (
     <div className="shadow-md bg-white dark:bg-slate-800 dark:text-white duration-200 relative z-40">
@@ -101,18 +116,25 @@ const Navbar = ({ setSearchQuery }) => {
             <div>
               <DarkMode />
             </div>
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-            >
-              Sign Out
-            </button>
-            <button
-              onClick={handleLogin}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            >
-              Sign In
-            </button>
+
+            <div>
+              {
+                 user ? (<div></div>) : (<div>
+                  <button
+                    onClick={handleLogout}
+                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                  >
+                    Sign Out
+                </button>
+                <button
+                  onClick={handleLogin}
+                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                >
+                  Sign In
+                </button>
+                  </div>)
+              }
+            </div>
           </div>
         </div>
       </div>

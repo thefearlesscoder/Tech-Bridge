@@ -172,12 +172,26 @@ const getProjectList = asyncHandler(async (req, res) => {
 });
 
 const getProjectDetails = asyncHandler(async (req, res) => {
+  console.log("cjhchjchjc");
+  
   const { id } = req.params;
   const userId = req.user._id;
+  let purchaseId = null;
+  console.log("User ID: ", userId);
+  console.log("Project ID: ", id);
+  const alreadyPurchased = await Purchase.findOne({
+    userId,
+    productId: id,
+  });
+  if (alreadyPurchased) {
+    console.log("sjhsjbsjks");
+    
+    purchaseId = alreadyPurchased._id;
+  }
 
   const project = await Project.findById(id)
-    .populate("viewLogs.userId", "fullname email avatar") 
-    .populate("userId", "fullname email avatar"); 
+    .populate("viewLogs.userId", "fullname email avatar")
+    .populate("userId", "fullname email avatar");
 
   if (!project) {
     throw new ApiError(404, "Project not found");
@@ -195,9 +209,15 @@ const getProjectDetails = asyncHandler(async (req, res) => {
 
   await project.save();
 
-  return res.status(200).json(
-    new ApiResponse(200, project, "Project details fetched successfully")
-  );
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { project, purchaseId },
+        "Project details fetched successfully"
+      )
+    );
 });
 
 

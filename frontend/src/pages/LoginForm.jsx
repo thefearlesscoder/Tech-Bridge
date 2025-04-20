@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../data";
 import toast from "react-hot-toast";
-import { setLoading } from "../slices/authSlice";
+import { setLoading, setToken } from "../slices/authSlice";
 
 
 
@@ -37,6 +37,9 @@ function LoginForm() {
       console.log(res.data.data.user);
       if ( res.data.success) {
         setUser(res?.data?.data?.user);
+        setToken(res?.data?.data?.accessToken);
+        localStorage.setItem("token", res?.data?.data?.accessToken);
+        localStorage.setItem("userinfo", JSON.stringify(res?.data?.data?.user));
         setEmail("");   
         setPassword("");
         toast.success("Login successful");

@@ -9,29 +9,34 @@
   A dynamic platform for tech enthusiasts to showcase their projects, find collaborators, and raise funds with ease. Tech-Bridge empowers developers and innovators to connect, collaborate,   and grow together.
   
 ## Demo Video Link:
-  <a href=""></a>
+   [Tech Bridge Demo](https://drive.google.com/file/d/1ERm0XWgl0j9uSkbO6aSftoh7THhzsTWY/view?usp=drive_link)
   
 ## Presentation Link:
-  [Team Codebase](https://docs.google.com/presentation/d/1Gf0LgfiDJv4Taxnck4OpauYRFKBAUnEL/edit?usp=sharing&ouid=107647227967589365991&rtpof=true&sd=true)"> TEAM Codebase Presentation
+  [Team Codebase](https://docs.google.com/presentation/d/1Gf0LgfiDJv4Taxnck4OpauYRFKBAUnEL/edit?usp=sharing&ouid=107647227967589365991&rtpof=true&sd=true)
   
-  
-## Table of Contents:
 
 ## Technology Stack:
-  1) Flutter
-  2) Google Collab
-  3) JavaFX
-  4) Machine Learning
+  Frontend: React.js, Tailwind CSS, Redux Toolkit, Axios
+
+  Backend: Node.js, Express.js
+
+  Database: MongoDB (Mongoose ORM)
+
+  Authentication: JWT (JSON Web Tokens)
+
+  Payments: Stripe
+
+  Email Service: Nodemailer with custom HTML templates
   
 
 ## Contributors:
 
-Team Name: Level_Sabke_Niklenge
+Team Name: Codebase
 
-- [Abhishek Patel](https://github.com/meisabhishekpatel)
-- [Alok Kumar Singh](https://github.com/harmonicfunc)
-- [Shreyansh Sinha](https://github.com/aryan1oo)
-- [Utkarsh Sharma](https://github.com/TechTonicShift)
+- [Sakaray Varsha](https://github.com/Varshasakaray)
+- [Vivek Kumar](https://github.com/thefearlesscoder)
+- [Varun Kumar Sahu](https://github.com/vks-07)
+- [Kunal Sonkar](https://github.com/Kunalsonkar07)
 
 
 ### Made at:

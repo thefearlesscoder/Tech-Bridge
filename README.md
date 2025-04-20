@@ -12,7 +12,7 @@
   <a href=""></a>
   
 ## Presentation Link:
-  <a [href="https://docs.google.com/document/d/1q_LBPiuw8-IA4X1Dm2E96WfQDCPOj8Ngu7Z2Sg2lDno/edit?tab=t.0](https://docs.google.com/presentation/d/1Gf0LgfiDJv4Taxnck4OpauYRFKBAUnEL/edit?usp=sharing&ouid=107647227967589365991&rtpof=true&sd=true)"> TEAM Codebase Presentation </a>
+  [Team Codebase](https://docs.google.com/presentation/d/1Gf0LgfiDJv4Taxnck4OpauYRFKBAUnEL/edit?usp=sharing&ouid=107647227967589365991&rtpof=true&sd=true)"> TEAM Codebase Presentation
   
   
 ## Table of Contents:

@@ -16,12 +16,12 @@ const Productschema = new mongoose.Schema({
         default: Date.now,
     },
     amountPaid: {
-        type: Number,
+        type: String,
         required: true,
     },
     paymentMethod: {
         type: String,
-        required: true,
+        // required: true,
     },
     transactionId: {
         type: String,

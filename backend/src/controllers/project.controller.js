@@ -2,7 +2,7 @@ import Project from "../models/project.model.js";
 import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-
+import { Purchase } from "../models/purchase.model.js";
 const createProject = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const user = await User.findById(userId);
@@ -16,7 +16,7 @@ const createProject = asyncHandler(async (req, res) => {
     lookingForCollaborators,
     requiredSkills,
     gitHub,
-    price
+    price,
   } = req.body;
 
   if (!userId || !title || !description) {
@@ -42,7 +42,7 @@ const createProject = asyncHandler(async (req, res) => {
     mediaUrls,
     lookingForCollaborators,
     requiredSkills,
-    price
+    price,
   });
 
   const saved = await project.save();
@@ -220,7 +220,6 @@ const getProjectDetails = asyncHandler(async (req, res) => {
     );
 });
 
-
 const addBookmark = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const { projectId } = req.params;
@@ -317,10 +316,8 @@ const getAllcollabProjects = asyncHandler(async (req, res) => {
 });
 
 const getCompletedProjects = asyncHandler(async (req, res) => {
-
   const projects = await Project.find({
     lookingForCollaborators: false,
-
   })
     .populate("userId", "fullname email avatar")
     .sort({ createdAt: -1 });
@@ -332,22 +329,26 @@ const getCompletedProjects = asyncHandler(async (req, res) => {
 
 const getBookmarkedProjects = asyncHandler(async (req, res) => {
   const userId = req.user._id;
-  const user = await User.findById(userId)
+  const user = await User.findById(userId);
   console.log("User bookmarks: ", user.bookmarks);
   console.log(user);
-  
+
   if (!user) {
-    return res
-      .status(404)
-      .json(new ApiResponse(404, null, "User not found"));
+    return res.status(404).json(new ApiResponse(404, null, "User not found"));
   }
 
   const bookmarks = user.bookmarks;
 
   return res
     .status(200)
-    .json(new ApiResponse(200, bookmarks, "Bookmarked projects fetched successfully"));
-})
+    .json(
+      new ApiResponse(
+        200,
+        bookmarks,
+        "Bookmarked projects fetched successfully"
+      )
+    );
+});
 
 export {
   createProject,
@@ -360,5 +361,5 @@ export {
   removeBookmark,
   getAllcollabProjects,
   getCompletedProjects,
-  getBookmarkedProjects
+  getBookmarkedProjects,
 };

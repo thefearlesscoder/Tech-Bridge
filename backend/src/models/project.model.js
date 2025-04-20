@@ -16,19 +16,31 @@ const Productschema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    techStack: {
-      type: [String],
-      default: [],
-    },
+    // techStack: {
+    //   type: [String],
+    //   default: [],
+    // },
     category: {
-      type: String,
-      default: "",
+      type: [String],
+      enum: [
+        "WEB",
+        "AI/ML",
+        "Blockchain",
+        "Web3",
+        "DevOps",
+        "Mobile",
+        "GameDev",
+        "Cybersecurity",
+        "Other",
+      ],
+      default: "Other",
     },
+
     pitchDeckUrl: {
       type: String,
       default: "",
     },
-    demoUrl: {
+    gitHub: {
       type: String,
       default: "",
     },
@@ -50,21 +62,13 @@ const Productschema = new mongoose.Schema(
     },
     isFeatured: {
       type: Boolean,
-      default: false, 
+      default: false,
     },
-    views: {
-      type: Number,
-      default: 0,
-    },
-    interests: [
+    viewLogs: [
       {
         userId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User",
-        },
-        message: {
-          type: String,
-          default: "",
         },
         timestamp: {
           type: Date,
@@ -72,9 +76,30 @@ const Productschema = new mongoose.Schema(
         },
       },
     ],
+    interests: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+        timestamp: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+    price: {
+      type: Number,
+      default: 0,
+    },
+    purchased: {
+      type: Boolean,
+      default: false,
+    },
   },
+
   { timestamps: true }
 );
 
-const Project = mongoose.models.Project || mongoose.model("Project", Productschema);
+const Project = mongoose.model("Project", Productschema);
 export default Project;

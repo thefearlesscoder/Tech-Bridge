@@ -1,7 +1,11 @@
 
+import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../data";
+import toast from "react-hot-toast";
+import { setLoading, setToken } from "../slices/authSlice";
 
 
 
@@ -17,33 +21,41 @@ function LoginForm() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  // const handleLoginWithGoogle = async (credentialResponse) => {
-  //   if (credentialResponse?.credential) {
-  //     console.log("Google Login Success:", credentialResponse);
 
-  //     // Extract token
-  //     let token = credentialResponse.credential;
-  //     console.log(token);
-     
-
-  //     token = jwtDecode(token)
-  //     console.log(token);
-
-  //     const email = token.email;
-  //     const name = token.name;
-  //     const image = token.picture;
-  //     const family_name = token.family_name;
-  //     const given_name = token.given_name;
-  //     const googleId = token.sub; // Google ID
-      
-  //     // Send token to backend for verification
-  //     dispatch( googleLogin(email, family_name, given_name, image, navigate) );
-  //   }
-  // }
-
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async(e) => {
     e.preventDefault();
     // dispatch(login(email, password, navigate));
+    setLoading(true);
+    try {
+      const res = await axios.post ( `${BASE_URL}/users/login`, {
+        email,
+        password,
+      }, {
+        withCredentials: true,
+      });
+  
+      console.log(res.data.data.user);
+      if ( res.data.success) {
+        setUser(res?.data?.data?.user);
+        setToken(res?.data?.data?.accessToken);
+        localStorage.setItem("token", res?.data?.data?.accessToken);
+        localStorage.setItem("userinfo", JSON.stringify(res?.data?.data?.user));
+        setEmail("");   
+        setPassword("");
+        toast.success("Login successful");
+        navigate("/");
+      }
+      else {
+        console.log("Login failed");
+        toast.error("Login failed");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+      toast.error("Login failed");
+    }
+
+    setLoading(false);
+
   };
 
 

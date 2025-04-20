@@ -5,6 +5,11 @@ import { FaCartShopping } from "react-icons/fa6";
 import { FaCaretDown } from "react-icons/fa";
 import DarkMode from "./DarkMode";
 import { FiShoppingBag } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {logout} from "../../slices/authSlice.js"
+import toast from "react-hot-toast";
+
 
 const Menu = [
   {
@@ -25,12 +30,12 @@ const Menu = [
   {
     id: 3,
     name: "Wishlist",
-    link: "/#",
+    link: '/wishlist'
   },
   {
     id: 3,
     name: "Community",
-    link: "/#",
+    link: "/community",
   },
 ];
 
@@ -38,16 +43,39 @@ const DropdownLinks = [
   {
     id: 1,
     name: "Add project",
-    link: "/#",
+    link: "/upload-project",
   },
   {
     id: 2,
     name: "Saved Products",
     link: "/#",
   },
+  {
+    id: 3,
+    name: "Add Post",
+    link: "/make-post",
+  },
 ];
 
-const Navbar = ({ handleOrderPopup }) => {
+
+const Navbar = ({ handleOrderPopup,setSearchQuery }) => {
+  const navigate=useNavigate();
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userinfo");
+    dispatch(logout());
+    navigate("/signin");
+    toast.success("Logged out successfully");
+  };
+
+  const { user } = useSelector((state) => state.auth);
+  console.log(user);
+
+  const handleLogin = () => {
+    navigate("/signin");
+  };
+
   return (
     <div className="shadow-md bg-white dark:bg-slate-800 dark:text-white duration-200 relative z-40">
       {/* upper Navbar */}
@@ -65,8 +93,9 @@ const Navbar = ({ handleOrderPopup }) => {
             <div className="relative group hidden sm:block">
               <input
                 type="text"
-                placeholder="Search"
-                className="w-[200px] sm:w-[200px] group-hover:w-[300px] transition-all duration-300 rounded-lg border border-gray-300 py-1 px-2
+                placeholder="Search by Category or Owner"
+                onChange={(e) => setSearchQuery(e.target.value.toLowerCase())}
+                className="w-[200px] sm:w-[250px] group-hover:w-[300px] transition-all duration-300 rounded-lg border border-gray-300 py-1 px-2
                 text-sm focus:outline-none focus:border-1 focus:border-primary dark:border-gray-500 dark:bg-slate-800 "
               />
               <IoMdSearch className="text-slate-800 group-hover:text-primary absolute top-1/2 -translate-y-1/2 right-3" />
@@ -75,17 +104,36 @@ const Navbar = ({ handleOrderPopup }) => {
             {/* order button */}
             <button
               onClick={() => handleOrderPopup()}
-              className="bg-gradient-to-r from-primary to-secondary transition-all duration-200 text-white  py-1 px-4 rounded-full flex items-center gap-3 group"
+              className="bg-gradient-to-r from-primary to-secondary transition-all duration-200 text-black  py-1 px-4 rounded-full flex items-center gap-3 group"
             >
               <span className="group-hover:block hidden transition-all duration-200">
                 Collaborate
               </span>
-              <FaCartShopping className="text-xl text-white drop-shadow-sm cursor-pointer" />
+              <FaCartShopping className="text-xl text-black drop-shadow-sm cursor-pointer" />
             </button>
 
             {/* Darkmode Switch */}
             <div>
               <DarkMode />
+            </div>
+
+            <div>
+              {
+                 user ? (<div></div>) : (<div>
+                  <button
+                    onClick={handleLogout}
+                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                  >
+                    Sign Out
+                </button>
+                <button
+                  onClick={handleLogin}
+                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                >
+                  Sign In
+                </button>
+                  </div>)
+              }
             </div>
           </div>
         </div>

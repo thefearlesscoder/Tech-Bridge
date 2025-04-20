@@ -31,9 +31,9 @@ const ProjectsData = [
 const TopProjects = ({ handleOrderPopup }) => {
   return (
     <div>
-      <div className="container">
+      <div className="container w-full mx-auto">
         {/* Header section */}
-        <div className="text-left mb-24">
+        <div className="text-center mb-24">
           <p data-aos="fade-up" className="text-sm text-primary">
             Top Rated Projects for you
           </p>

@@ -1,28 +1,29 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../../data";
 
 const WishlistPage = () => {
   const [bookmarkedProjects, setBookmarkedProjects] = useState([]);
 
-  useEffect(() => {
-    const fetchBookmarks = async () => {
-      try {
-        const res = await axios.get("/api/v1/project/bookmarkedprojects", {
-          withCredentials: true,
-        });
-        console.log(res.data.data);
-        setBookmarkedProjects(res.data.data);
-      } catch (error) {
-        console.error("Error fetching bookmarks", error);
-      }
-    };
+  const fetchBookmarks = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/project/bookmarkedprojects`, {
+        withCredentials: true,
+      });
+      console.log(res.data);
+      setBookmarkedProjects(res.data.data);
+    } catch (error) {
+      console.error("Error fetching bookmarks", error);
+    }
+  };
 
+  useEffect(() => {
     fetchBookmarks();
   }, []);
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Your Wishlist</h1>
+    <div className="p-4 h-screen">
+      <h1 className="text-2xl text-center font-bold mb-4">Your Wishlist</h1>
       {Array.isArray(bookmarkedProjects) && bookmarkedProjects.length === 0 ? (
         <p>No bookmarked projects yet.</p>
       ) : (

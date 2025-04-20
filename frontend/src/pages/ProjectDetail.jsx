@@ -13,6 +13,8 @@ const ProjectDetail = () => {
   const [project, setProject] = useState({});
   const [mybookmark, setMybookmark] = useState([]);
 
+
+
   const [searchParams] = useSearchParams();
   const paymentStatus = searchParams.get("payment");
   const sessionId = searchParams.get("session_id");
@@ -26,7 +28,7 @@ const ProjectDetail = () => {
         { withCredentials: true }
       );
       console.log("Payment response:", res.data);
-      set
+      
       console.log("Payment successful!");
       toast.success("Payment successful! Thank you for your purchase.");
     } catch (e) {
@@ -41,7 +43,7 @@ const ProjectDetail = () => {
     }
   }, [paymentStatus]);
 
-  const { token , loading } =  useSelector((state) => state.auth);
+  const { token , loading , user } =  useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const getProjectDetails = async () => {
@@ -207,7 +209,7 @@ const ProjectDetail = () => {
 
   const commonfun = async () => {
     // makePayment() ;
-    if (token == null || token == undefined ) {
+    if (user == null || user == undefined ) {
         toast.error("You need to login") ;
     }else {
 
@@ -218,6 +220,8 @@ const ProjectDetail = () => {
         // toast.success("Registed successfull");
     }
   };
+
+  console.log("token -> ", token);
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white py-10 px-4">
@@ -262,7 +266,6 @@ const ProjectDetail = () => {
           <p className="text-gray-300 leading-loose">{description}</p>
         </div>
 
-        {/* Required Skills */}
         <div>
           <h3 className="text-2xl font-semibold mb-4 text-purple-400">
             Full Tech Stack / Tools Used
@@ -279,7 +282,6 @@ const ProjectDetail = () => {
           </div>
         </div>
 
-        {/* GitHub & Pitch Deck */}
         <div className="flex flex-col gap-4 items-center">
           {gitHub && (
             <a
@@ -293,7 +295,6 @@ const ProjectDetail = () => {
           )}
         </div>
 
-        {/* Media Preview */}
         {mediaUrls && mediaUrls.length > 0 && (
           <div className="my-6 space-y-6">
             {mediaUrls.map((url, index) => {
@@ -358,7 +359,6 @@ const ProjectDetail = () => {
           </div>
         )}
 
-        {/* Price & Views */}
         <div className="flex flex-wrap gap-6 text-sm text-gray-400">
           <p>
             <strong>💰 Price:</strong> ₹{price}

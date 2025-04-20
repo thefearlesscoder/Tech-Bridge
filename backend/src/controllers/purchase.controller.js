@@ -22,8 +22,6 @@ const createPurchase = asyncHandler(async (req, res) => {
         )
       );
   }
-  console.log(amountPaid);
-  
 
   const alreadyPurchased = await Purchase.findOne({ productId });
   if (alreadyPurchased) {
@@ -49,7 +47,7 @@ const createPurchase = asyncHandler(async (req, res) => {
     userId,
     productId,
     amountPaid,
-    paymentMethod:  "Credit Card",
+    paymentMethod: paymentMethod || "Credit Card",
     transactionId,
   });
 
@@ -86,7 +84,7 @@ const createPurchase = asyncHandler(async (req, res) => {
       <p>Hi <strong>${user.name}</strong>,</p>
       <p>Thank you for purchasing the project: <strong>${projectTitle}</strong>.</p>
       <p><strong>Amount Paid:</strong> $${amountPaid}</p>
-     
+      <p><strong>Payment Method:</strong> ${paymentMethod}</p>
       <p><strong>Transaction ID:</strong> ${transactionId}</p>
       <p>We hope this project helps you in your journey!</p>
       <br>

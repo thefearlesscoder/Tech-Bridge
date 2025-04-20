@@ -12,13 +12,17 @@ import {
   getCompletedProjects,
   getBookmarkedProjects
 } from "../controllers/project.controller.js";
+import dotenv from 'dotenv'; 
 import { upload } from "../middleware/multer.middleware.js";
 import { verifyJwt } from "../middleware/auth.middleware.js";
+
 import Stripe from "stripe";
-const stripe = new Stripe(
+const stripe = Stripe(
   "sk_test_51QJ5RTAI8xVNoO7T66S6lNNc7Ts96kL6ehGHkn31IUHGVu9jlwk7DsdrRBwMzL77oEtRtpy0YAYGxEn2J5Rgg1Rz00vp8Sm9nI"
-);
+);// Make sure to call dotenv.config() at the top
+
 const router = Router();
+
 
 router.route("/addproject").post(verifyJwt, createProject);
 router.route("/deleteproject/:projectId").delete(verifyJwt, deleteProject);
@@ -73,6 +77,7 @@ router.post("/create-checkout-session", async (req, res) => {
     res.status(500).json({ error: "Failed to create checkout session" });
   }
 });
+
 export default router;
 
 

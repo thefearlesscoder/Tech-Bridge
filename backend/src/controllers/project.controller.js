@@ -329,7 +329,7 @@ const getCompletedProjects = asyncHandler(async (req, res) => {
 
 const getBookmarkedProjects = asyncHandler(async (req, res) => {
   const userId = req.user._id;
-  const user = await User.findById(userId);
+  const user = await User.findById(userId).populate("bookmarks");
   console.log("User bookmarks: ", user.bookmarks);
   console.log(user);
 

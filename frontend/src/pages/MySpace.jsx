@@ -10,16 +10,13 @@ export const MySpace = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
 
   const { user } = useSelector((state) => state.auth);
-    console.log(user);
 
- const [myPosts, setMyPosts] = useState([]);
- const [myProjects, setMyProjects] = useState([]);
- const  [myPurchasedProjects, setMyPurchasedProjects] = useState([]);
+  const [myPosts, setMyPosts] = useState([]);
+  const [myProjects, setMyProjects] = useState([]);
+  const [myPurchasedProjects, setMyPurchasedProjects] = useState([]);
   const [myAppliedProjects, setMyAppliedProjects] = useState([]);
 
-  // Fetching My Posts
-
- useEffect(() => {
+  useEffect(() => {
     const fetchMyPosts = async () => {
       try {
         const response = await axios.get("http://localhost:8000/api/v1/community/getmyposts", {
@@ -30,10 +27,8 @@ export const MySpace = () => {
         console.error("Error fetching my posts:", error);
       }
     };
-
     fetchMyPosts();
   }, []);
-  console.log("My Posts", myPosts);
 
   useEffect(() => {
     const fetchMyProjects = async () => {
@@ -43,14 +38,11 @@ export const MySpace = () => {
         });
         setMyProjects(response.data.data);
       } catch (error) {
-        console.error("Error fetching my posts:", error);
+        console.error("Error fetching my projects:", error);
       }
     };
-
     fetchMyProjects();
   }, []);
-
-  console.log("My Projects", myProjects);
 
   useEffect(() => {
     const fetchMyPurchasedProjects = async () => {
@@ -60,60 +52,44 @@ export const MySpace = () => {
         });
         setMyPurchasedProjects(response.data.data);
       } catch (error) {
-        console.error("Error fetching my posts:", error);
+        console.error("Error fetching my purchases:", error);
       }
     };
-
     fetchMyPurchasedProjects();
   }, []);
-  
-  console.log("My Purchases", myPurchasedProjects);
 
-//   useEffect(() => {
-//     const fetchMyApplied = async () => {
-//       try {
-//         const response = await axios.get("http://localhost:8000/api/v1/community/appliedcolab", {
-//           withCredentials: true,
-//         });
-//         setMyAppliedProjects(response.data.data);
-//       } catch (error) {
-//         console.error("Error fetching applied colabs:", error);
-//       }
-//     };
-
-//     fetchMyApplied();
-//   }, []);
-
-return (
-    <div className="p-6 text-white bg-gray-950 min-h-screen">
-      {/* Page Heading */}
-      <h1 className="text-4xl font-extrabold text-center text-purple-400 mb-10">
-        My Stuffs
+  return (
+    <div className="p-6 min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      {/* Heading */}
+      <h1 className="text-4xl font-extrabold text-center text-purple-700 dark:text-purple-400 mb-10 drop-shadow">
+        My Space
       </h1>
 
       {/* Tabs */}
-      <div className="border-b border-gray-700 mb-6">
-        <div className="flex justify-center space-x-6">
+      <div className="border-b border-gray-300 dark:border-gray-700 mb-6">
+        <div className="flex justify-center flex-wrap gap-4">
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`pb-2 text-base font-medium relative transition-all duration-200 
-                ${activeTab === tab ? "text-purple-400" : "text-gray-400"} 
-                hover:text-purple-300`}
+              className={`relative px-4 py-2 font-medium rounded-lg transition-all duration-200
+                ${
+                  activeTab === tab
+                    ? "bg-purple-600 text-white shadow-md dark:bg-purple-500"
+                    : "bg-gray-200 text-gray-700 hover:bg-purple-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                }`}
             >
               {tab}
-              <span
-                className={`absolute left-0 bottom-0 h-0.5 w-full bg-purple-500 transition-all duration-300 
-                  ${activeTab === tab ? "opacity-100" : "opacity-0 group-hover:opacity-50"}`}
-              ></span>
+              {activeTab === tab && (
+                <span className="absolute left-0 bottom-0 w-full h-1 bg-purple-400 rounded-b-md transition-all duration-300"></span>
+              )}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Content Area */}
-      <div className="mt-6 text-center text-gray-300">
+      {/* Content */}
+      <div className="mt-8 text-center">
         {activeTab === "My Posts" && (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {myPosts.map((post) => (
@@ -139,7 +115,9 @@ return (
         )}
 
         {activeTab === "Applied for Colab" && (
-          <div>Collaborations user applied for...</div>
+          <div className="text-lg text-gray-500 dark:text-gray-300">
+            Collaborations you applied for will appear here...
+          </div>
         )}
       </div>
     </div>

@@ -11,7 +11,7 @@ import projectRouter from "./routes/project.router.js";
 import commentsRouter from "./routes/comment.router.js";
 import communityRouter from "./routes/community.router.js";
 import purchaseRouter from "./routes/purchase.router.js";
-
+import applicationRouter from "./routes/application.router.js";
 const app = express();
 
 app.use(cors({
@@ -31,7 +31,7 @@ app.use("/api/v1/comments", commentsRouter);
 app.use("/api/v1/community", communityRouter);
 // app.use("/api/v1/apply", applyRouter);
 app.use("/api/v1/purchase", purchaseRouter);
-
+app.use("/api/v1/application", applicationRouter);
 // Stripe Payment Route
 app.post("/create-payment-intent", async (req, res) => {
   const { amount } = req.body;

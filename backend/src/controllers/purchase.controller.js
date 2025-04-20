@@ -12,10 +12,6 @@ const createPurchase = asyncHandler(async (req, res) => {
   const amountPaid = await Project.findById(productId).select("price");
   const transactionId = session_id;
   if (!productId || !amountPaid || !transactionId) {
-  const { session_id } = req.body;
-  const amountPaid = await Project.findById(productId).select("price");
-  const transactionId = session_id;
-  if (!productId || !amountPaid || !transactionId) {
     return res
       .status(400)
       .json(
@@ -113,12 +109,16 @@ const createPurchase = asyncHandler(async (req, res) => {
       );
   }
 
+
   return res
     .status(201)
     .json(
       new ApiResponse(
         201,
-        purchase,
+        {
+          purchase,
+
+        },
         "Purchase successful and project marked as purchased"
       )
     );

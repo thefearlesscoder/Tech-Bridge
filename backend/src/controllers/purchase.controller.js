@@ -107,12 +107,16 @@ const createPurchase = asyncHandler(async (req, res) => {
       );
   }
 
+
   return res
     .status(201)
     .json(
       new ApiResponse(
         201,
-        purchase,
+        {
+          purchase,
+
+        },
         "Purchase successful and project marked as purchased"
       )
     );

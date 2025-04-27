@@ -6,6 +6,7 @@ const CommunityPage = () => {
   const [collabPosts, setCollabPosts] = useState([]);
   const [role, setRole] = useState("All");
 
+
   useEffect(() => {
     const fetchVcPosts = async () => {
       try {

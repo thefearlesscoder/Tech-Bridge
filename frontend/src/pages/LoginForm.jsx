@@ -36,10 +36,10 @@ function LoginForm() {
   
       console.log(res.data.data.user);
       if ( res.data.success) {
-        setUser(res?.data?.data?.user);
-        setToken(res?.data?.data?.accessToken);
+        (setUser(res?.data?.data?.user));
+        (setToken(res?.data?.data?.accessToken));
         localStorage.setItem("token", res?.data?.data?.accessToken);
-        localStorage.setItem("userinfo", JSON.stringify(res?.data?.data?.user));
+        localStorage.setItem("user", JSON.stringify(res?.data?.data?.user));
         setEmail("");   
         setPassword("");
         toast.success("Login successful");

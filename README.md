@@ -1,138 +1,43 @@
-# 🚀 Tech-Bridge
+<h1 align="center">Tech Bridge</h1>
+<p align="center">
+</p>
 
-A dynamic platform for tech enthusiasts to **showcase their projects**, **find collaborators**, and **raise funds** with ease. Tech-Bridge empowers developers and innovators to connect, collaborate, and grow together.
-
-## 👨‍💻 Collaborators
+<a href="https://hack36.in"> <img src="https://postimage.me/images/2025/04/19/built-at-hack36.png" height=24px> </a>
 
 
-- [**Sakaray Varsha**](https://github.com/Varshasakaray)  
-- [**Vivek Kumar**](https://github.com/thefearlesscoder)  
-- [**Kunal Sonkar**](https://github.com/Kunalsonkar07)  
-- [**Varun Kumar Sahu**](https://github.com/vks-07)
+## Introduction:
+  A dynamic platform for tech enthusiasts to showcase their projects, find collaborators, and raise funds with ease. Tech-Bridge empowers developers and innovators to connect, collaborate,   and grow together.
+  
+## Demo Video Link:
+   [Tech Bridge Demo](https://drive.google.com/file/d/1ERm0XWgl0j9uSkbO6aSftoh7THhzsTWY/view?usp=drive_link)
+  
+## Presentation Link:
+  [Team Codebase](https://docs.google.com/presentation/d/1Gf0LgfiDJv4Taxnck4OpauYRFKBAUnEL/edit?usp=sharing&ouid=107647227967589365991&rtpof=true&sd=true)
+  
 
----
+## Technology Stack:
+  Frontend: React.js, Tailwind CSS, Redux Toolkit, Axios
 
-## 🌟 Features
+  Backend: Node.js, Express.js
 
-### 🔐 Authentication
-- Secure login/signup
+  Database: MongoDB (Mongoose ORM)
 
-### 🧰 Project Management
-- Add, edit, and delete projects  
-- Update project state based on progress
+  Authentication: JWT (JSON Web Tokens)
 
-### 🧑‍💼 User Dashboard
-- View all your projects  
-- See your collaborators, funders, and buyers
+  Payments: Stripe
 
-### 🧠 State Management
-- Managed using **Redux** for consistent state control
+  Email Service: Nodemailer with custom HTML templates
+  
 
-### 🔍 Filters
-- Filter projects based on:
-  - Collaborators
-  - Funders
-  - Buyers
+## Contributors:
 
-### 💸 Payments & Notifications
-- Integrated with **Stripe** / **Razorpay**
-- Email notifications for every transaction
+Team Name: Codebase
 
-### 💖 User Engagement
-- Wishlist/bookmark projects  
-- Like/Unlike projects  
-- Comment, rate, and review projects
+- [Sakaray Varsha](https://github.com/Varshasakaray)
+- [Vivek Kumar](https://github.com/thefearlesscoder)
+- [Varun Kumar Sahu](https://github.com/vks-07)
+- [Kunal Sonkar](https://github.com/Kunalsonkar07)
 
----
 
-## 🧪 Additional Features
-
-- 🔎 **Skill Requirement Search** — find projects that match your skills  
-- 🌐 **Community Page** — buyers can post requirements to attract developers
-
----
-
-> 🎯 Tech-Bridge is more than a platform. It's a launchpad for ideas and innovation.  
-Feel free to contribute, suggest ideas, or reach out to the team!
-
-## Routes Mounting
-```
-  /api/v1/users
-```
-```
-/api/v1/project
-```
-```
-/api/v1/comments
-```
-```
-/api/v1/community
-```
-```
-/api/v1/apply
-```
-```
-/api/v1/purchase
-```
-
-## API Endpoints
-
-**USER**
-
-- User login (POST)
-```
-/login
-```
-- user logout (POST)
-```
-  /logout
-```
-- Refresh Access Token (POST)
-  ```
-  `/refresh-token
-  ```
-- Change-Password (POST)
-  ```
-    /change-password
-  ```
-- Get User Details (GET)
-  ```
-  /user/:id
-  ```
-- Update Deatils (POST)
-    ```
-    `/update-details
-    ```
-**PROJECT ROUTES**
-
-```
-("/addproject").post
-("/deleteproject/:projectId").delete
-("/editproject/:projectId").put
-("/myprojects").get
-(router.route("/projects").get
-("/projects").get
-("/addbookmark/:projectId").post
-("/removebookmark/:projectId").delete
-("/bookmarkedprojects").get
-("/collabprojects").get
-("/completedprojects").get
-```
-
-**COMMUNITY ROUTES**
-
-```
-  ("/addpost").post
-  ("/getpostofrole").post
-  ("/updatepost/:postId").put
-  ("/deletepost/:postId").delete
-  ("/getmyposts").get
-```
-**COMMENT ROUTES**
-
-```
-  ("/addcomment/:projectId").post
-  ("/deletecomment/:commentId").delete
-  ("/comments/:projectId").get
-```
-
+### Made at:
+<a href="https://hack36.in"> <img src="https://postimage.me/images/2025/04/19/built-at-hack36.png" height=24px> </a>

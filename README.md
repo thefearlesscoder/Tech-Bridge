@@ -3,7 +3,6 @@
 </p>
 
 <a href="https://hack36.in"> <img src="https://postimage.me/images/2025/04/19/built-at-hack36.png" height=24px> </a>
-# Tech-Bridge
 
 > A platform for tech enthusiasts to showcase their projects, find collaborators, and raise funds.
 

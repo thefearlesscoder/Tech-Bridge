@@ -211,7 +211,7 @@ This project is licensed under the [ISC License](LICENSE).
 
 ## Links
 
-- [Live Demo]((https://drive.google.com/file/d/1ERm0XWgl0j9uSkbO6aSftoh7THhzsTWY/view?usp=drive_link)) <!-- Add link if deployed -->
+- [Live Demo](https://drive.google.com/file/d/1ERm0XWgl0j9uSkbO6aSftoh7THhzsTWY/view?usp=drive_link) <!-- Add link if deployed -->
 - [Issues](https://github.com/thefearlesscoder/Tech-Bridge/issues)
 - [Pull Requests](https://github.com/thefearlesscoder/Tech-Bridge/pulls)
 
